@@ -2,11 +2,14 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @ORM\Table(name="users")
  */
 class User implements UserInterface
 {
@@ -52,6 +55,22 @@ class User implements UserInterface
      * @ORM\Column(type="boolean")
      */
     private $active;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Trip", mappedBy="participants")
+     */
+    private $registredTrips;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Campus")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $campus;
+
+    public function __construct()
+    {
+        $this->registredTrips = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -197,4 +216,45 @@ class User implements UserInterface
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
     }
+
+    /**
+     * @return Collection|Trip[]
+     */
+    public function getRegistredTrips(): Collection
+    {
+        return $this->registredTrips;
+    }
+
+    public function addRegistredTrip(Trip $registredTrip): self
+    {
+        if (!$this->registredTrips->contains($registredTrip)) {
+            $this->registredTrips[] = $registredTrip;
+            $registredTrip->addParticipant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRegistredTrip(Trip $registredTrip): self
+    {
+        if ($this->registredTrips->contains($registredTrip)) {
+            $this->registredTrips->removeElement($registredTrip);
+            $registredTrip->removeParticipant($this);
+        }
+
+        return $this;
+    }
+
+    public function getCampus(): ?Campus
+    {
+        return $this->campus;
+    }
+
+    public function setCampus(?Campus $campus): self
+    {
+        $this->campus = $campus;
+
+        return $this;
+    }
+
 }
