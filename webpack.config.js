@@ -26,10 +26,8 @@ Encore
     .addEntry('app', './assets/js/app.js')
     .addEntry('dashboard', './assets/js/dashboard.js')
     .addEntry('login', './assets/js/login.js')
+    .addEntry('trip_add', './assets/js/trip_add.js')
     .addEntry('profile', './assets/js/profile.js')
-
-    //.addEntry('page1', './assets/js/page1.js')
-    //.addEntry('page2', './assets/js/page2.js')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()

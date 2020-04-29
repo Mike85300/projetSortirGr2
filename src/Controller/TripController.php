@@ -28,4 +28,12 @@ class TripController extends AbstractController
             'trips' => $trips,
         ]);
     }
+
+    /**
+     * @Route("/add", name="add")
+     */
+    public function add()
+    {
+        return $this->render('trip/add.html.twig', []);
+    }
 }

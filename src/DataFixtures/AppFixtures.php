@@ -205,25 +205,25 @@ class AppFixtures extends Fixture
         $users = [];
 
         $bobMarley = new User();
-        $bobMarley->setUsername('king_of_reggae')->setName('Marley')->setFirstname('Bob')->setEmail('bob.marley@gmail.com')->setPhone('0601020304')->setActive(false)->setCampus($campusLRY);
+        $bobMarley->setUsername('king_of_reggae')->setName('Marley')->setFirstname('Bob')->setEmail('bob.marley@gmail.com')->setPhone('0601020304')->setActive(false)->setCampus($campusLRY)->setRoles(['ROLE_USER']);
         $password = $this->encoder->encodePassword($bobMarley, 'azerty123');
         $bobMarley->setPassword($password);
         array_push($users, $bobMarley);
 
         $anthonyMartin = new User();
-        $anthonyMartin->setUsername('amartin')->setName('Martin')->setFirstname('Anthony')->setEmail('anthony.martin2019@campus-eni.fr')->setPhone('0611111111')->setActive(true)->setCampus($campusLRY);
+        $anthonyMartin->setUsername('amartin')->setName('Martin')->setFirstname('Anthony')->setEmail('anthony.martin2019@campus-eni.fr')->setPhone('0611111111')->setActive(true)->setCampus($campusLRY)->setRoles(['ROLE_USER','ROLE_ADMIN']);
         $password = $this->encoder->encodePassword($anthonyMartin, 'azerty123');
         $anthonyMartin->setPassword($password);
         array_push($users, $anthonyMartin);
 
         $mickaelMandin = new User();
-        $mickaelMandin->setUsername('mmandin')->setName('Mandin')->setFirstname('Mickael')->setEmail('mickael.mandin2019@campus-eni.fr')->setPhone('0622222222')->setActive(true)->setCampus($campusLRY);
+        $mickaelMandin->setUsername('mmandin')->setName('Mandin')->setFirstname('Mickael')->setEmail('mickael.mandin2019@campus-eni.fr')->setPhone('0622222222')->setActive(true)->setCampus($campusLRY)->setRoles(['ROLE_USER','ROLE_ADMIN']);
         $password = $this->encoder->encodePassword($mickaelMandin, 'azerty123');
         $mickaelMandin->setPassword($password);
         array_push($users, $mickaelMandin);
 
         $romaintanguy = new User();
-        $romaintanguy->setUsername('rtanguy')->setName('Tanguy')->setFirstname('Romain')->setEmail('romain.tanguy2019@campus-eni.fr')->setPhone('0633333333')->setActive(true)->setCampus($campusLRY);
+        $romaintanguy->setUsername('rtanguy')->setName('Tanguy')->setFirstname('Romain')->setEmail('romain.tanguy2019@campus-eni.fr')->setPhone('0633333333')->setActive(true)->setCampus($campusLRY)->setRoles(['ROLE_USER','ROLE_ADMIN']);
         $password = $this->encoder->encodePassword($romaintanguy, 'azerty123');
         $romaintanguy->setPassword($password);
         array_push($users, $romaintanguy);
