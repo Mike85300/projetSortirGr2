@@ -148,14 +148,14 @@ class Trip
         return $this;
     }
 
-    public function getinformation(): ?string
+    public function getInformation(): ?string
     {
         return $this->information;
     }
 
-    public function setinformation(?string $tripInformation): self
+    public function setInformation(?string $information): self
     {
-        $this->tripInformation = $tripInformation;
+        $this->information = $information;
 
         return $this;
     }
