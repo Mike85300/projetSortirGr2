@@ -1,0 +1,29 @@
+{% extends 'layout.html.twig' %}
+
+{% block stylesheet %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('profile') }}
+{% endblock %}
+
+{% block title %}
+    Sortir.com - Mon profil
+{% endblock %}
+
+{% block main %}
+    <h1 class="titre">Mon profil</h1>
+    <div class="profile">
+        <span class="profileCat">Pseudo :</span> {{ app.user.getUsername }}<br>
+        <span class="profileCat">Nom :</span> {{ app.user.getFirstname }}<br>
+        <span class="profileCat">Prénom :</span> {{ app.user.getName }}<br>
+        <span class="profileCat">Téléphone :</span> {{ app.user.getPhone }}<br>
+        <span class="profileCat">E-mail :</span> {{ app.user.getEmail }}<br>
+        <span class="profileCat">Site de rattachement :</span> {{ app.user.campus.getName }}<br>
+    </div>
+    <br>
+    <p class="centrer">
+        {#TODO vérifier le nom de route ci-dessous#}
+        <a href="{{ path ('user_edit') }}" class="myButton">Modifier</a>
+    </p>
+{% endblock %}
+
+
