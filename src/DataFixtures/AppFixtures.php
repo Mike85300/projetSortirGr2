@@ -39,7 +39,7 @@ class AppFixtures extends Fixture
         $full = new State();
         $full->setWording('complet');
         array_push($states, $full);
-        
+
         $close = new State();
         $close->setWording('fermé');
         array_push($states, $close);
@@ -326,7 +326,7 @@ class AppFixtures extends Fixture
             ->setMaxRegistrationNumber(12)
             ->setinformation('')
             ->setState($open)
-            ->addParticipant($bobMarley)->addParticipant($anthonyMartin)->addParticipant($mickaelMandin)->addParticipant($romaintanguy);
+            ->addParticipant($anthonyMartin)->addParticipant($mickaelMandin)->addParticipant($romaintanguy);
         array_push($trips, $piscine1);
 
         foreach ($trips as $trip)
@@ -354,14 +354,14 @@ class AppFixtures extends Fixture
             ->setName('Yoga en plein air')
             ->setCampus($campusLRY)
             ->setLocation($placeNapoleonLRY)
-            ->setOrganizer($bobMarley)
+            ->setOrganizer($mickaelMandin)
             ->setStartDate(date_create('2020-06-20 14:00'))
             ->setDuration(120)
             ->setRegistrationDeadline(date_create('2020-04-19 14:00'))
             ->setMaxRegistrationNumber(null)
             ->setinformation('Séance ouverte à tous pour découvrir le yoga en plein air en centre ville.')
             ->setState($close)
-            ->addParticipant($bobMarley)->addParticipant($mickaelMandin);
+            ->addParticipant($anthonyMartin)->addParticipant($mickaelMandin)->addParticipant($romaintanguy);
         array_push($trips, $yoga1);
 
         $coronapero1 = new Trip();
@@ -371,13 +371,28 @@ class AppFixtures extends Fixture
             ->setLocation($vbLRY)
             ->setOrganizer($bobMarley)
             ->setStartDate(date_create('2020-04-25 19:00'))
-            ->setDuration(120)
+            ->setDuration(180)
             ->setRegistrationDeadline(date_create('2020-04-25 19:00'))
             ->setMaxRegistrationNumber(null)
             ->setinformation('Apéro à distance en organisé avec V&B La Roche Sud')
             ->setState($over)
             ->addParticipant($bobMarley)->addParticipant($anthonyMartin)->addParticipant($mickaelMandin)->addParticipant($romaintanguy);
         array_push($trips, $coronapero1);
+
+        $coronapero2 = new Trip();
+        $coronapero2
+            ->setName('CoronApéro !')
+            ->setCampus($campusLRY)
+            ->setLocation($vbLRY)
+            ->setOrganizer($bobMarley)
+            ->setStartDate(date_create('2020-05-16 19:00'))
+            ->setDuration(180)
+            ->setRegistrationDeadline(date_create('2020-05-15 19:00'))
+            ->setMaxRegistrationNumber(null)
+            ->setinformation('Apéro à distance en organisé avec V&B La Roche Sud')
+            ->setState($open)
+            ->addParticipant($bobMarley)->addParticipant($anthonyMartin)->addParticipant($mickaelMandin)->addParticipant($romaintanguy);
+        array_push($trips, $coronapero2);
 
         foreach ($trips as $trip)
         {
