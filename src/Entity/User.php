@@ -36,7 +36,7 @@ class User implements UserInterface
     private $firstname;
 
     /**
-     * @ORM\Column(type="string", length=13)
+     * @ORM\Column(type="integer", length=13)
      */
     private $phone;
 
@@ -93,11 +93,9 @@ class User implements UserInterface
     /**
      * @param mixed $username
      */
-    public function setUsername($username): self
+    public function setUsername($username)
     {
         $this->username = $username;
-
-        return $this;
     }
 
     public function getEmail(): ?string
@@ -157,11 +155,9 @@ class User implements UserInterface
     /**
      * @param mixed $name
      */
-    public function setName($name): self
+    public function setName($name): void
     {
         $this->name = $name;
-
-        return $this;
     }
 
     /**
@@ -175,11 +171,9 @@ class User implements UserInterface
     /**
      * @param mixed $firstname
      */
-    public function setFirstname($firstname): self
+    public function setFirstname($firstname): void
     {
         $this->firstname = $firstname;
-
-        return $this;
     }
 
     /**
@@ -193,11 +187,9 @@ class User implements UserInterface
     /**
      * @param mixed $phone
      */
-    public function setPhone($phone): self
+    public function setPhone($phone): void
     {
         $this->phone = $phone;
-
-        return $this;
     }
 
     /**
@@ -211,11 +203,9 @@ class User implements UserInterface
     /**
      * @param mixed $active
      */
-    public function setActive($active): self
+    public function setActive($active): void
     {
         $this->active = $active;
-
-        return $this;
     }
 
 
