@@ -1,17 +1,6 @@
 @import "../../node_modules/bootstrap";
 
 body {
-    background-color: lightgray;
-}
-
-.navbar ul {
-    display:inline-block;
-    list-style:none;
-}
-.navbar li {
-    float:left;
-}
-.navbar li + li {
-    margin-left:100px;
+    background-color: white;
 }
 
