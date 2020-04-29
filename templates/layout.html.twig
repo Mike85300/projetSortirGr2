@@ -1,40 +1,43 @@
 <!doctype html>
 <html lang="fr">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport"
-              content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        {% block stylesheet %}
-            {{ encore_entry_link_tags('app') }}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    {% block stylesheet %}
+        {{ encore_entry_link_tags('app') }}
+    {% endblock %}
+    <title>{% block title %}Sortir.com - Se connecter{% endblock %}</title>
+</head>
+<body>
+<div class="container">
+    <header>
+        <img src="{{ asset("images/logoSite.jpg") }}" alt="Logo du site">
+
+        {% block header %}
+            {% include "include/nav.html.twig" %}
         {% endblock %}
-        <title>{% block title %}Sortir.com - Se connecter{% endblock %}</title>
-    </head>
-    <body>
-        <div class="container">
-            <header>
-                <img src="{{ asset("images/logoSite.jpg") }}" alt="Logo du site">
+    </header>
 
-                {% block header %}
-                {% endblock %}
-            </header>
+    {# afficher les messages flash #}
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="flash-{{ label }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
 
-            {# afficher les messages flash #}
-            {% for label, messages in app.flashes %}
-                {% for message in messages %}
-                    <div class="flash-{{ label }}">
-                        {{ message }}
-                    </div>
-                {% endfor %}
-            {% endfor %}
+    <h1>Bienvenue !</h1>
+    {% block main %}
 
-            {% block main %}
-                <h1>Bienvenue !</h1>
-            {% endblock %}
+    {% endblock %}
 
-        </div>
-        {% block script %}
-            {{ encore_entry_link_tags('app') }}
-        {% endblock %}
-    </body>
+
+    {% block script %}
+        {{ encore_entry_link_tags('app') }}
+    {% endblock %}
+</div>
+</body>
 </html>
