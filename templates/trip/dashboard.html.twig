@@ -1,18 +1,100 @@
 {% extends 'layout.html.twig' %}
 
+{% block stylesheet %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('dashboard') }}
+{% endblock %}
+
+
 {% block title %}
     Sortir.com - Tableau de bord
 {% endblock %}
 
-{% block header %}
-
-    {% include 'include/nav.html.twig' %}
-    <h3>Filtrer les sorties</h3>
-
-{% endblock %}
-
 {% block main %}
+    <div class="dashboard-info d-none d-lg-block">
+        <div class="row justify-content-end">
+            Utilisateur : Prenom N.
+            {#
+             TODO Quand se connecter est terminée : supprimer Prenom N et remplacer par
+            {{ app.user.firstname|title }} {{ app.user.name|first|upper }}
+            #}
+        </div>
+        <div class="row justify-content-end">
+            Date du jour : {{ "now"|date("d/m/Y") }}
+        </div>
+    </div>
 
-    {#TODO remplir la page#}
+    <div class="dashboard-filter">
+        <h3>Filtrer les sorties</h3>
+        {#TODO filtre de recherche#}
+    </div>
+
+    <div class="dashboard-trips">
+        {% for trip in trips %}
+            <div class="card mb-3">
+                <div class="card-body">
+                    <div class="row no-gutters">
+                        <div class ="col-md-6 col-lg-8">
+                            <div class="col-12">
+                                <h5 class="card-title">{{ trip.name|upper }}</h5>
+                                <p class="card-city">{{ trip.location.city.name }}</p>
+                                <p class="card-info d-none d-lg-block">{{ trip.information }}</p>
+                            </div>
+                            <div class="col-12">
+                                <div class="d-flex justify-content-center my-2">
+                                    <a href="#" class="btn btn-outline-info btn-sm mx-2">Test</a>
+                                    <a href="#" class="btn btn-outline-info btn-sm mx-2">Test</a>
+                                    <a href="#" class="btn btn-outline-info btn-sm mx-2">Test</a>
+
+                                    {# TODO : Quand se connecter est terminée : supprimer les lien test et remplacer par :
+
+                                    {% if trip.state.id == 1 AND trip.organizer.id == app.user.id %}
+                                        <a href="#" class="btn btn-outline-info btn-sm mx-2">Modifier</a>
+                                        <a href="#" class="btn btn-outline-info btn-sm mx-2">Publier</a>
+                                    {% else %}
+                                        <a href="#" class="btn btn-outline-info btn-sm mx-2">Afficher</a>
+                                    {% endif %}
+
+                                    {% if trip.state.id == 2 AND "now" < trip.registrationDeadline AND app.user in trip.participants %}
+                                        <a href="#" class="btn btn-outline-info btn-sm mx-2">S'inscrire</a>
+                                    {% elseif trip.state.id == 2 AND "now"<trip.registrationDeadline %}
+                                        <a href="#" class="btn btn-outline-info btn-sm mx-2">Se désister</a>
+                                    {% endif %}
+
+                                    {% if trip.organizer.id == app.user.id AND "now" < trip.startDate %}
+                                        <a href="#" class="btn btn-outline-info btn-sm mx-2">Annuler</a>
+                                    {% endif %}
+
+                                    #}
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-4">
+                            <div class="order-sm-1 col-12">
+                                <p class="card-text">Date de début : {{ trip.startDate|date("d/m/Y à H:i") }}<br>
+                                    Inscrits{{ trip.maxRegistrationNumber ? '/Places' }} : {{ trip.participants|length }}{{ trip.maxRegistrationNumber ? '/' ~ trip.maxRegistrationNumber }}<br>
+                                    Etat : {{ trip.state.wording|title }}<br>
+                                    {% if trip.state.id < 4 %}
+                                        Clôture : {{ trip.registrationDeadline|date("d/m/Y à H:i") }}
+                                    {% endif %}
+                                </p>
+                                <p class="card-text"><small class="text-muted"> Organisateur : {{ trip.organizer.firstname|title }} {{ trip.organizer.name|first|upper }}</small></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="d-flex justify-content-center">
+        <a href="#" class="btn btn-outline-secondary btn-lg my-5">Créer une sortie</a>
+    </div>
 
 {% endblock %}
+
+ {% block script %}
+     {{ parent() }}
+     {{ encore_entry_link_tags('dashboard') }}
+ {% endblock %}

@@ -20,7 +20,7 @@ class Trip
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=50)
      */
     private $name;
 
@@ -47,7 +47,7 @@ class Trip
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    private $tripInformation;
+    private $information;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Location")
@@ -148,12 +148,12 @@ class Trip
         return $this;
     }
 
-    public function getTripInformation(): ?string
+    public function getinformation(): ?string
     {
-        return $this->tripInformation;
+        return $this->information;
     }
 
-    public function setTripInformation(?string $tripInformation): self
+    public function setinformation(?string $tripInformation): self
     {
         $this->tripInformation = $tripInformation;
 
