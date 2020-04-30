@@ -26,69 +26,106 @@
         {#TODO filtre de recherche#}
     </div>
 
-    <div class="dashboard-trips">
+    <div class="card-columns">
         {% for trip in trips %}
-            <div class="card mb-3">
+            <div class="card border-secondary">
                 <div class="card-body">
-                    <div class="row no-gutters">
-                        <div class ="col-md-6 col-lg-8">
-                            <div class="col-12">
-                                <h5 class="card-title">{{ trip.name|upper }}</h5>
-                                <p class="card-city">{{ trip.location.city.name }}</p>
-                                <p class="card-info d-none d-lg-block">{{ trip.information }}</p>
-                            </div>
-                            <div class="col-12">
-                                <div class="d-flex justify-content-center my-2">
+                    <h5 class="card-title">{{ trip.name|upper }}</h5>
+                    <p class="card-city">{{ trip.location.city.name }}</p>
+                    <ul class="list-group list-group-flush">
 
-                                    {# boutons afficher, modifier, publier #}
-                                    {% if trip.state.wording == 'en création' and trip.organizer.id == app.user.id %}
-                                        <a href="#" class="btn btn-outline-info btn-sm mx-2">Modifier</a>
-                                        <a href="#" class="btn btn-outline-primary btn-sm mx-2">Publier</a>
-                                    {% else %}
-                                        <a href="#" class="btn btn-outline-info btn-sm mx-2">Afficher</a>
-                                    {% endif %}
-
-                                    {# boutons s'inscrire, se désister #}
-                                    {% if trip.state.wording == 'ouvert' and date() < date(trip.registrationDeadline) %}
-                                        {% set isRegistred = false %}
-                                        {% for participant in trip.participants %}
-                                            {% if participant.id == app.user.id %}
-                                                {% set isRegistred = true %}
-                                            {% endif %}
-                                        {% endfor %}
-                                        {% if isRegistred %}
-                                            <a href="#" class="btn btn-outline-warning btn-sm mx-2">Se désister</a>
-                                        {% else %}
-                                            <a href="#" class="btn btn-outline-success btn-sm mx-2">S'inscrire</a>
-                                        {% endif %}
-                                    {% endif %}
-
-                                    {# bouton annuler #}
-                                    {% if trip.organizer.id == app.user.id and date() < date(trip.startDate) %}
-                                        <a href="#" class="btn btn-outline-danger btn-sm mx-2">Annuler</a>
-                                    {% endif %}
-
-
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-6">
+                                    Date de début
+                                </div>
+                                <div>
+                                    {{ trip.startDate|date("d/m/Y à H:i") }}
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-6 col-lg-4">
-                            <div class="order-sm-1 col-12">
-                                <p class="card-text">Date de début : {{ trip.startDate|date("d/m/Y à H:i") }}<br>
-                                    inscrits{{ trip.maxRegistrationNumber ? '/places' }} : {{ trip.participants|length }}{{ trip.maxRegistrationNumber ? '/' ~ trip.maxRegistrationNumber }}<br>
-                                    Etat : {{ trip.state.wording|title }}<br>
-                                    {% if trip.state.id < 4 %}
-                                        Clôture : {{ trip.registrationDeadline|date("d/m/Y à H:i") }}
-                                    {% endif %}
-                                </p>
-                                <p class="card-text"><small class="text-muted"> ORGANISATEUR : {{ trip.organizer.firstname|title }} {{ trip.organizer.name|first|upper }}.</small></p>
+                        </li>
+
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-6">
+                                    inscrits{{ trip.maxRegistrationNumber ? '/places' }}
+                                </div>
+                                <div>
+                                    {{ trip.participants|length }}{{ trip.maxRegistrationNumber ? '/' ~ trip.maxRegistrationNumber }}
+                                </div>
                             </div>
-                        </div>
+                        </li>
+
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-6">
+                                    Etat
+                                </div>
+                                <div>
+                                    {{ trip.state.wording|title }}
+                                </div>
+                            </div>
+                        </li>
+
+                        {% if trip.state.wording == 'ouvert' or trip.state.wording == 'complet' %}
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col-6">
+                                        Clôture
+                                    </div>
+                                    <div>
+                                        {{ trip.registrationDeadline|date("d/m/Y à H:i") }}
+                                    </div>
+                                </div>
+                            </li>
+                        {% endif %}
+
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-6">
+                                    Organisateur
+                                </div>
+                                <div>
+                                    {{ trip.organizer.firstname|title }} {{ trip.organizer.name|first|upper }}
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="d-flex justify-content-center my-2">
+                        {# boutons afficher, modifier, publier #}
+                        {% if trip.state.wording == 'en création' and trip.organizer.id == app.user.id %}
+                            <a href="#" class="btn btn-outline-info btn-sm mx-2">Modifier</a>
+                            <a href="#" class="btn btn-outline-primary btn-sm mx-2">Publier</a>
+                        {% else %}
+                            <a href="#" class="btn btn-outline-info btn-sm mx-2">Afficher</a>
+                        {% endif %}
+
+                        {# boutons s'inscrire, se désister #}
+                        {% if trip.state.wording == 'ouvert' and date() < date(trip.registrationDeadline) %}
+                            {% set isRegistred = false %}
+                            {% for participant in trip.participants %}
+                                {% if participant.id == app.user.id %}
+                                    {% set isRegistred = true %}
+                                {% endif %}
+                            {% endfor %}
+                            {% if isRegistred %}
+                                <a href="#" class="btn btn-outline-warning btn-sm mx-2">Se désister</a>
+                            {% else %}
+                                <a href="#" class="btn btn-outline-success btn-sm mx-2">S'inscrire</a>
+                            {% endif %}
+                        {% endif %}
+
+                        {# bouton annuler #}
+                        {% if trip.organizer.id == app.user.id and date() < date(trip.startDate) %}
+                            <a href="#" class="btn btn-outline-danger btn-sm mx-2">Annuler</a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
         {% endfor %}
     </div>
+
+
 
     <div class="d-flex justify-content-center">
         <a href="{{ path('trip_add') }}" class="btn btn-outline-secondary btn-lg my-5">Créer une sortie</a>

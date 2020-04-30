@@ -2,17 +2,19 @@
     margin-bottom: 0;
 }
 
-.card-info {
-    margin-bottom: 0;
-}
-
 .card-title {
     margin-bottom: 0.1rem;
+    text-align: center;
 }
 
 .card-city {
     margin-bottom: 0.5rem;
     font-size: 0.9rem;
+    text-align: center;
+}
+
+.list-group-item {
+    padding: 0.5rem 1rem;
 }
 
 .dashboard-info {
@@ -20,3 +22,28 @@
     font-size: 1.3rem;
     font-weight: 500;
 }
+
+@media (min-width: 300px) {
+    .card-columns {
+        column-count: 1;
+    }
+}
+
+@media (min-width: 710px) {
+    .card-columns {
+        column-count: 2;
+    }
+}
+
+@media (min-width: 1060px) {
+    .card-columns {
+        column-count: 3;
+    }
+}
+
+@media (min-width: 1400px) {
+    .card-columns {
+        column-count: 4;
+    }
+}
+
