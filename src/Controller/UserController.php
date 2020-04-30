@@ -74,7 +74,7 @@ class UserController extends AbstractController
             $em->persist($user);
             $em->flush();
 
-            return $this->redirectToRoute('trip_dashboard');
+            return $this->redirectToRoute('user_profile');
         }
 
         return $this->render('user/edit.html.twig', [
