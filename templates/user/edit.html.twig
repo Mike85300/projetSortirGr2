@@ -1,9 +1,19 @@
 {% extends 'layout.html.twig' %}
 
+
+{% block stylesheet %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('user_edit') }}
+{% endblock %}
+
 {% block main %}
+
     {{ form_start(userForm) }}
+
     {{ form_widget(userForm) }}
-    <button type="submit">Modifier</button>
+    <p class="centrer">
+        <button type="submit" class="myButton">Modifier</button>
+    </p>
     {{ form_end(userForm) }}
 
     {% for label, messages in app.flashes(['success', 'warning']) %}
