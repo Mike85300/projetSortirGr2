@@ -2,3 +2,8 @@ h1
 {
     text-align: center;
 }
+.jumbotron
+{
+    display: table;
+    margin: 0 auto;
+}

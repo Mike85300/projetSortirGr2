@@ -71,7 +71,7 @@ class UserAuthenticator extends AbstractFormLoginAuthenticator implements Passwo
 
         if (!$user) {
             // fail authentication with a custom error
-            throw new CustomUserMessageAuthenticationException('Email incorrect');
+            throw new CustomUserMessageAuthenticationException('Identifiants incorrects');
         }
 
         return $user;
