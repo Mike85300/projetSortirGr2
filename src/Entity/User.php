@@ -30,16 +30,26 @@ class User implements UserInterface
     private $username;
 
     /**
+     * @Assert\Regex(
+     *     "/^[ a-zA-ZÀ-ÿ\u00f1\u00d1]*$/",
+     *     message="Prénom non valide."
+     * )
      * @ORM\Column(type="string", length=50)
      */
     private $name;
 
     /**
+     * @Assert\Regex(
+     *     "/^[ a-zA-ZÀ-ÿ\u00f1\u00d1]*$/",
+     *     message="Nom non valide."
+     * )
      * @ORM\Column(type="string", length=50)
      */
     private $firstname;
 
     /**
+     * @Assert\Regex("/^[0-9 ]*$/", message="Numéro de téléphone non valide.")
+     * @Assert\Length(min="10")
      * @ORM\Column(type="string", length=13)
      */
     private $phone;
