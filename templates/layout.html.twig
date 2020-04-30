@@ -14,9 +14,9 @@
 <div class="container">
     <header>
         <img src="{{ asset("images/logoSite.jpg") }}" alt="Logo du site">
-
+        {% include "include/nav.html.twig" %}
         {% block header %}
-            {% include "include/nav.html.twig" %}
+
         {% endblock %}
     </header>
 
