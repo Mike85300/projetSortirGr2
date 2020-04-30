@@ -1,0 +1,19 @@
+{% extends 'layout.html.twig' %}
+
+{% block main %}
+    {{ form_start(userForm) }}
+    {{ form_widget(userForm) }}
+    <button type="submit">Modifier</button>
+    {{ form_end(userForm) }}
+
+    {% for label, messages in app.flashes(['success', 'warning']) %}
+        {% for message in messages %}
+            <div class="flash-{{ label }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+{% endblock %}
+
+
+
