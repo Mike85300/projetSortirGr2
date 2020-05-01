@@ -19,6 +19,24 @@ class CityRepository extends ServiceEntityRepository
         parent::__construct($registry, City::class);
     }
 
+    /**
+     * @author Romain Tanguy
+     * Retourne les villes dont le nom ou le zip commence par le pattern passé en paramètre
+     * @param $pattern
+     * @return City[] Returns an array of City objects
+     */
+    public function findByPattern($pattern) {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.name LIKE :name_pattern')
+            ->orWhere('c.zip LIKE :zip_pattern')
+            ->setParameter('name_pattern', $pattern.'%')
+            ->setParameter('zip_pattern', $pattern.'%')
+            ->setMaxResults(20)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     // /**
     //  * @return City[] Returns an array of City objects
     //  */
