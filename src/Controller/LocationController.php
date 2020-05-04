@@ -17,7 +17,8 @@ use Symfony\Component\Serializer\SerializerInterface;
 class LocationController extends AbstractController
 {
 
-    /**@author Romain Tanguy
+    /**
+     * @author Romain Tanguy
      * Retourne un tableau d'objet Location, au format JSON, qui sont dans la ville dont le nom et le code postal sont passé en paramètre de la requête
      * @Route("/ajax", name="ajax")
      * @param Request $request
@@ -28,15 +29,11 @@ class LocationController extends AbstractController
     {
         if ($request->isXmlHttpRequest())
         {
-            $cityInfo = $request->get('city'); //string dont le pattern est 'name (zip)'
-
-            //récupérer le nom et le zip :
-            $str = explode(' (', $cityInfo);
-            $name = $str[0];
-            $zip = explode(')', $str[1])[0];
+            $cityName = $request->get('city');
+            $cityZip = $request->get('zip');
 
             //requête en DB pour récupérer la ville (son id) :
-            $city = $this->getDoctrine()->getRepository(City::class)->findOneBy(['name' => $name, 'zip' => $zip]);
+            $city = $this->getDoctrine()->getRepository(City::class)->findOneBy(['name' => $cityName, 'zip' => $cityZip]);
 
             //requête en DB pour récupérer la liste des locations qui sont dans la ville
             $locationRepo = $this->getDoctrine()->getRepository(Location::class);

@@ -5,6 +5,8 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TripRepository")
@@ -21,55 +23,113 @@ class Trip
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Assert\Type("string")
+     * @Assert\Length(
+     *      max = 50,
+     *      maxMessage = "Le nom de la sortie ne peut pas dépasser 50 caractères.",
+     *      allowEmptyString = false,
+     *      normalizer="trim",
+     * )
+     * @Assert\NotBlank(
+     *     normalizer="trim",
+     *     message="Veuillez renseigner un nom.",
+     * )
      */
     private $name;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\DateTime(
+     *     message="Vous devez renseigner une date et une heure de début."
+     * )
+     * @Assert\GreaterThan(
+     *     value="now",
+     *     message="La date de début doit être postérieure à {{ compared_value }}."
+     * )
+     * @Assert\NotBlank(
+     *     normalizer="trim",
+     *     message="Veuillez renseigner une date et une heure de début.",
+     * )
      */
     private $startDate;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\Type(
+     *     type="int",
+     *     message="Cette valeur doit être un nombre",
+     * )
+     * @Assert\NotBlank(
+     *     normalizer="trim",
+     *     message="Veuillez renseigner une durée.",
+     * )
+     * @Assert\Positive (
+     *     message="Ce nombre doit être positif.",
+     * )
      */
     private $duration;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\DateTime(
+     *     message="Vous devez renseigner une date et une heure limite d'inscription."
+     * )
+     * @Assert\LessThan(
+     *     propertyPath="startDate",
+     *     message="La date de limite d'inscription doit être antérieure à {{ compared_value }}."
+     * )
+     * @Assert\NotBlank(
+     *     normalizer="trim",
+     *     message="Veuillez renseigner un date limite et une heure limite d'inscription.",
+     * )
      */
     private $registrationDeadline;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Assert\Type(
+     *     type="int",
+     *     message="Cette valeur doit être un nombre.",
+     * )
+     * @Assert\Positive(
+     *     message="Ce nombre doit être positif.",
+     * )
      */
     private $maxRegistrationNumber;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Assert\Positive
      */
     private $information;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Location")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $location;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\State")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank(
+     *     normalizer="trim",
+     *     message="Veuillez renseigner un lieu.",
+     * )
      */
     private $state;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Campus")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank
      */
     private $campus;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank
      */
     private $organizer;
 
