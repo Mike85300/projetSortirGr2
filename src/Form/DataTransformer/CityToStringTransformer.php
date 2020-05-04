@@ -43,14 +43,22 @@ class CityToStringTransformer implements DataTransformerInterface
      */
     public function reverseTransform($token)
     {
+        $city = null;
+
         if (!$token)
         {
             return;
         }
-        $str = explode(' (', $token);
-        $name = $str[0];
-        $zip = explode(')', $str[1])[0];
-        $city = $this->entityManager->getRepository(City::class)->findOneBy(['name' => $name, 'zip' => $zip]);
+
+        $pattern = '#^\D+\s\(\d{5}\)$#';
+        preg_match($pattern, $token, $matches);
+        if ($matches)
+        {
+            $str = explode(' (', $token);
+            $name = $str[0];
+            $zip = explode(')', $str[1])[0];
+            $city = $this->entityManager->getRepository(City::class)->findOneBy(['name' => $name, 'zip' => $zip]);
+        }
 
         if ($city === null)
         {
@@ -58,7 +66,7 @@ class CityToStringTransformer implements DataTransformerInterface
             // this message is not shown to the user
             throw new TransformationFailedException( sprintf(
                 'An issue with city "%s" does not exist!',
-                $name
+                $token
             ));
         }
 

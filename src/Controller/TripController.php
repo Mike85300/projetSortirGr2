@@ -2,8 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\State;
 use App\Entity\Trip;
+use App\Form\TripType;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -30,10 +34,40 @@ class TripController extends AbstractController
     }
 
     /**
+     * Gère l'ajout d'une sortie
      * @Route("/add", name="add")
      */
-    public function add()
+    public function add(Request $request, EntityManagerInterface $entityManager)
     {
-        return $this->render('trip/add.html.twig', []);
+        $trip = new Trip();
+        $trip->setOrganizer($this->getUser());
+        $trip->setCampus($this->getUser()->getCampus());
+
+        $tripForm = $this->createForm(TripType::class, $trip);
+        $tripForm->handleRequest($request);
+
+        if ($tripForm->isSubmitted() && $tripForm->isValid())
+        {
+            $wording='';
+            if ($tripForm->getClickedButton()->getName() == 'save')
+            {
+                $wording = 'en création';
+            }
+            elseif ($tripForm->getClickedButton()->getName() == 'publish')
+            {
+                $wording = 'ouvert';
+            }
+            $state = $this->getDoctrine()->getRepository(State::class)->findOneBy(['wording' => $wording]);
+            $trip->setState($state);
+
+            $entityManager->persist($trip);
+            $entityManager->flush();
+            $this->addFlash('succes','La sortie est enregistrée');
+            return $this->redirectToRoute('trip_dashboard', []);
+        }
+
+        return $this->render('trip/add.html.twig', [
+            'tripForm' => $tripForm->createView(),
+        ]);
     }
 }
