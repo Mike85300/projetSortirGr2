@@ -96,9 +96,9 @@ class AppFixtures extends Fixture
         $quimper->setName('Quimper')->setZip('29000');
         array_push($cities, $quimper);
 
-        $Niort = new City();
-        $Niort->setName('Niort')->setZip('79000');
-        array_push($cities, $Niort);
+        $niort = new City();
+        $niort->setName('Niort')->setZip('79000');
+        array_push($cities, $niort);
 
         $angers = new City();
         $angers->setName('Angers')->setZip('49000');
@@ -192,6 +192,22 @@ class AppFixtures extends Fixture
         $cinevilleLRY->setName('Cineville')->setStreet('Rue François Cevert')->setCity($laRocheSurYon)->setLatitude(46.6979866027832)->setLongitude(-1.4270051717758179);
         array_push($locations, $cinevilleLRY);
 
+        $hallesNiort = new Location();
+        $hallesNiort->setName('Halles de Niort')->setStreet('Place des Halles')->setCity($niort)->setLatitude(46.325562)->setLongitude(-0.461866);
+        array_push($locations, $hallesNiort);
+
+        $museeDonjonNiort = new Location();
+        $museeDonjonNiort->setName('Musée du Donjon')->setStreet('Rue du Guesclin')->setCity($niort)->setLatitude(46.325399)->setLongitude(-0.463007);
+        array_push($locations, $museeDonjonNiort);
+
+        $chateauNantes = new Location();
+        $chateauNantes->setName('Château des Ducs de Bretagne')->setStreet('Place Marc Elder')->setCity($nantes)->setLatitude(47.216420)->setLongitude(-1.548693);
+        array_push($locations, $chateauNantes);
+
+        $passagePommerayeNantes = new Location();
+        $passagePommerayeNantes->setName('Passage Pommeraye')->setStreet('Passage Pommeraye')->setCity($nantes)->setLatitude(47.213657)->setLongitude(-1.559603);
+        array_push($locations, $passagePommerayeNantes);
+
         foreach ($locations as $location)
         {
             $manager->persist($location);
@@ -284,11 +300,27 @@ class AppFixtures extends Fixture
             ->setState($inCreation);
         array_push($trips, $atelierPhilo3);
 
+        $atelierPhilo4 = new Trip();
+        $atelierPhilo4
+            ->setName('Atelier philo #4')
+            ->setCampus($campusNantes)
+            ->setLocation($passagePommerayeNantes)
+            ->setOrganizer($anthonyMartin)
+            ->setStartDate(date_create('2020-04-02 17:00'))
+            ->setDuration(120)
+            ->setRegistrationDeadline(date_create('2020-03-02 17:00'))
+            ->setMaxRegistrationNumber(12)
+            ->setinformation('Thème de la soirée : Pourquoi la loi de Murphy ?')
+            ->setState($inCreation)
+            ->addParticipant($anthonyMartin)->addParticipant($mickaelMandin)->addParticipant($romaintanguy);
+
+        array_push($trips, $atelierPhilo4);
+
         $cinema1 = new Trip();
         $cinema1
-            ->setName('Soirée Ciné !')
-            ->setCampus($campusLRY)
-            ->setLocation($cinevilleLRY)
+            ->setName('Shopping de nuit !')
+            ->setCampus($campusNiort)
+            ->setLocation($hallesNiort)
             ->setOrganizer($bobMarley)
             ->setStartDate(date_create('2020-08-15 20:00'))
             ->setDuration(120)
@@ -393,6 +425,21 @@ class AppFixtures extends Fixture
             ->setState($open)
             ->addParticipant($bobMarley)->addParticipant($anthonyMartin)->addParticipant($mickaelMandin)->addParticipant($romaintanguy);
         array_push($trips, $coronapero2);
+
+        $coronapero3 = new Trip();
+        $coronapero3
+            ->setName('CoronApéro !')
+            ->setCampus($campusNiort)
+            ->setLocation($museeDonjonNiort)
+            ->setOrganizer($bobMarley)
+            ->setStartDate(date_create('2020-03-28 19:00'))
+            ->setDuration(180)
+            ->setRegistrationDeadline(date_create('2020-03-25 19:00'))
+            ->setMaxRegistrationNumber(null)
+            ->setinformation('Apéro à distance avec le musée du Donjon de Niort !')
+            ->setState($open)
+            ->addParticipant($bobMarley)->addParticipant($anthonyMartin)->addParticipant($mickaelMandin)->addParticipant($romaintanguy);
+        array_push($trips, $coronapero3);
 
         foreach ($trips as $trip)
         {
