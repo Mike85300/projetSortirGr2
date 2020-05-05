@@ -48,13 +48,17 @@ $(function() {
                 success: function (data) {
                     let locationSelect = $('#trip_location');
                     locationSelect.empty();
+                    let option;
                     if (JSON.parse(data).length == 0) {
-                        let option = $('<option value="">Aucun lieu ne correspond à la ville sélectionnée</option>');
+                        option = $('<option value="">Aucun lieu ne correspond à la ville sélectionnée</option>');
+                        option.appendTo(locationSelect);
+                    } else {
+                        option = $('<option value="">Sélectionnez un lieu</option>');
                         option.appendTo(locationSelect);
                     }
 
                     for (const location of JSON.parse(data)) {
-                        let option = $('<option value="' + location.id + '">' + location.name + '</option>');
+                        option = $('<option value="' + location.id + '">' + location.name + '</option>');
                         option.appendTo(locationSelect);
                     }
                 },
@@ -70,7 +74,6 @@ $(function() {
 
     /**
      * Gère l'évenement change sur le champ Lieu - Requête AJAX
-     *
      */
     $('#trip_location').change(function () {
         $.ajax({
