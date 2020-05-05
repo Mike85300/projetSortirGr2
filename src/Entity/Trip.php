@@ -99,7 +99,6 @@ class Trip
 
     /**
      * @ORM\Column(type="text", nullable=true)
-     * @Assert\Positive
      */
     private $information;
 
