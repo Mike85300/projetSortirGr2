@@ -36,13 +36,30 @@ class TripController extends AbstractController
 
     /**
      * Gère l'ajout d'une sortie
-     * @Route("/add", name="add")
+     * @Route("/add/{id}", name="add", requirements={"id"="\d+"})
      */
-    public function add(Request $request, EntityManagerInterface $entityManager)
+    public function add($id = 0, Request $request, EntityManagerInterface $entityManager)
     {
-        $trip = new Trip();
-        $trip->setOrganizer($this->getUser());
-        $trip->setCampus($this->getUser()->getCampus());
+        $mod = '';
+        if ($id == 0)
+        {
+            $mod='add';
+            $trip = new Trip();
+            $trip->setOrganizer($this->getUser());
+            $trip->setCampus($this->getUser()->getCampus());
+        }
+        else
+        {
+            $mod='edit';
+            $trip = $this->getDoctrine()->getRepository(Trip::class)->find($id);
+            $state = $trip->getState()->getWording();
+            $organizerId = $trip->getOrganizer()->getId();
+            if ($state != 'en création' || $organizerId != $this->getUser()->getId())
+            {
+                $this->addFlash('danger','La sortie ne peut pas être modifiée');
+                return $this->redirectToRoute('trip_dashboard', []);
+            }
+        }
 
         $tripForm = $this->createForm(TripType::class, $trip);
         $tripForm->handleRequest($request);
@@ -71,18 +88,23 @@ class TripController extends AbstractController
 
                     $entityManager->persist($trip);
                     $entityManager->flush();
-                    $this->addFlash('succes','La sortie est enregistrée');
+                    if ($state == 'add')
+                    {
+                        $this->addFlash('succes','La sortie est enregistrée');
+                    }
+                    elseif ($state = 'edit')
+                    {
+                        $this->addFlash('succes','La sortie est modifiée');
+                    }
+
                     return $this->redirectToRoute('trip_dashboard', []);
                 }
             }
         }
 
-
-
-
-
         return $this->render('trip/add.html.twig', [
             'tripForm' => $tripForm->createView(),
+            'mod' => $mod,
         ]);
     }
 }

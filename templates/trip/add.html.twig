@@ -7,11 +7,21 @@
 
 
 {% block title %}
+    {% if mod == 'add' %}
     Sortir.com - Créer une sortie
+    {% elseif mod == 'edit' %}
+    Sortir.com - Modifier une sortie
+    {% endif %}
 {% endblock %}
 
 {% block main %}
-    <h2>Créer une sortie</h2>
+    <h2 class="mb-3">
+        {% if mod == 'add' %}
+            Créer une sortie
+        {% elseif mod == 'edit' %}
+            Modifier une sortie
+        {% endif %}
+    </h2>
     <div class="form">
         {{ form_start(tripForm) }}
         <div class="row">
@@ -54,15 +64,16 @@
             </div>
         </div>
         <div class="d-flex flex-row flex-wrap justify-content-center">
-
-                {{ form_row(tripForm.save) }}
-
-                {{ form_row(tripForm.publish) }}
-
+            {{ form_row(tripForm.save) }}
+            {{ form_row(tripForm.publish) }}
+            {% if mod == 'edit' %}
+                <div class="form-group">
+                    <a href="#" class="btn btn-outline-info">Supprimer la sortie</a>
+                </div>
+            {% endif %}
             <div class="form-group">
                 <a href="#" class="btn btn-outline-info">Annuler</a>
             </div>
-
         </div>
         {{ form_end(tripForm) }}
     </div>

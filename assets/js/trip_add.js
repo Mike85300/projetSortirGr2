@@ -4,6 +4,11 @@ let $ = require('jquery');
 
 $(function() {
 
+    if ($('#trip_location').val())
+    {
+        afficherDetailLieu($('#trip_location').val());
+    }
+
     /**
      * Gére l'évènement 'input' sur le champ Ville - Requête AJAX
      */
@@ -85,7 +90,6 @@ $(function() {
             data: {locationId: $(this).val()},
             success: function (data) {
                 let location = JSON.parse(data);
-                console.log(location);
                 if (location)
                 {
                     $('#trip_location_street').val(location.street);
@@ -94,19 +98,47 @@ $(function() {
                 }
                 else
                 {
-                    console.log("null !");
                     $('#trip_location_street').val("");
                     $('#trip_location_latitute').val("");
                     $('#trip_location_longitude').val("");
                 }
-
             },
             error: function (err) {
                 alert("An error ocurred while loading location details ...");
             }
-        })
+        });
     });
 
+    function afficherDetailLieu($locationId)
+    {
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:8000/location/ajax2",
+            data: {locationId: $locationId},
+            success: function (data) {
+                let location = JSON.parse(data);
+                if (location)
+                {
+                    $('#trip_location_street').val(location.street);
+                    $('#trip_location_latitute').val(location.latitude);
+                    $('#trip_location_longitude').val(location.longitude);
+                    if ($('#trip_city').val() == "")
+                    {
+                        $('#trip_city').val(location.city.name + " (" + location.city.zip + ")");
+                    }
+                }
+                else
+                {
+                    $('#trip_location_street').val("");
+                    $('#trip_location_latitute').val("");
+                    $('#trip_location_longitude').val("");
+                }
+            },
+            error: function (err) {
+                alert("An error ocurred while loading location details ...");
+            }
+        });
+    }
 
 });
 
