@@ -48,28 +48,31 @@ $(function() {
                 success: function (data) {
                     let locationSelect = $('#trip_location');
                     locationSelect.empty();
+                    let locations = JSON.parse(data);
                     let option;
-                    if (JSON.parse(data).length == 0) {
+                    if (locations.length == 0) {
                         option = $('<option value="">Aucun lieu ne correspond à la ville sélectionnée</option>');
                         option.appendTo(locationSelect);
-                    } else {
-                        option = $('<option value="">Sélectionnez un lieu</option>');
-                        option.appendTo(locationSelect);
+                        $('#trip_location_street').val("");
+                        $('#trip_location_latitute').val("");
+                        $('#trip_location_longitude').val("");
                     }
-
-                    for (const location of JSON.parse(data)) {
-                        option = $('<option value="' + location.id + '">' + location.name + '</option>');
-                        option.appendTo(locationSelect);
+                    else
+                    {
+                        for (const location of locations) {
+                            option = $('<option value="' + location.id + '">' + location.name + '</option>');
+                            option.appendTo(locationSelect);
+                        }
+                        $('#trip_location_street').val(locations[0].street);
+                        $('#trip_location_latitute').val(locations[0].latitude);
+                        $('#trip_location_longitude').val(locations[0].longitude);
                     }
                 },
                 error: function (err) {
                     alert("An error ocurred while loading locations ...");
                 }
             })
-
-
         }
-
     });
 
     /**
@@ -82,9 +85,21 @@ $(function() {
             data: {locationId: $(this).val()},
             success: function (data) {
                 let location = JSON.parse(data);
-                $('#trip_location_street').val(location.street);
-                $('#trip_location_latitute').val(location.latitude);
-                $('#trip_location_longitude').val(location.longitude);
+                console.log(location);
+                if (location)
+                {
+                    $('#trip_location_street').val(location.street);
+                    $('#trip_location_latitute').val(location.latitude);
+                    $('#trip_location_longitude').val(location.longitude);
+                }
+                else
+                {
+                    console.log("null !");
+                    $('#trip_location_street').val("");
+                    $('#trip_location_latitute').val("");
+                    $('#trip_location_longitude').val("");
+                }
+
             },
             error: function (err) {
                 alert("An error ocurred while loading location details ...");

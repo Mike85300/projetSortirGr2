@@ -1,0 +1,13 @@
+.form {
+    margin: 0 10%;
+}
+
+h2 {
+    text-align: center;
+    margin: 1rem;
+}
+
+.btn {
+    margin: 0.5rem 1rem;
+    min-width: 150px;
+}
