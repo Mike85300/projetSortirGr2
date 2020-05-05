@@ -7,6 +7,7 @@ use App\Entity\Trip;
 use App\Form\TripType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -46,25 +47,39 @@ class TripController extends AbstractController
         $tripForm = $this->createForm(TripType::class, $trip);
         $tripForm->handleRequest($request);
 
-        if ($tripForm->isSubmitted() && $tripForm->isValid())
+        if ($tripForm->isSubmitted())
         {
-            $wording='';
-            if ($tripForm->getClickedButton()->getName() == 'save')
-            {
-                $wording = 'en création';
+            if (!$trip->getLocation()) {
+                $tripForm->get('location')->addError(
+                    new FormError('Veuillez renseigner le lieu de la sortie.')
+                );
             }
-            elseif ($tripForm->getClickedButton()->getName() == 'publish')
-            {
-                $wording = 'ouvert';
-            }
-            $state = $this->getDoctrine()->getRepository(State::class)->findOneBy(['wording' => $wording]);
-            $trip->setState($state);
+            else {
+                if ($tripForm->isValid())
+                {
+                    $wording='';
+                    if ($tripForm->getClickedButton()->getName() == 'save')
+                    {
+                        $wording = 'en création';
+                    }
+                    elseif ($tripForm->getClickedButton()->getName() == 'publish')
+                    {
+                        $wording = 'ouvert';
+                    }
+                    $state = $this->getDoctrine()->getRepository(State::class)->findOneBy(['wording' => $wording]);
+                    $trip->setState($state);
 
-            $entityManager->persist($trip);
-            $entityManager->flush();
-            $this->addFlash('succes','La sortie est enregistrée');
-            return $this->redirectToRoute('trip_dashboard', []);
+                    $entityManager->persist($trip);
+                    $entityManager->flush();
+                    $this->addFlash('succes','La sortie est enregistrée');
+                    return $this->redirectToRoute('trip_dashboard', []);
+                }
+            }
         }
+
+
+
+
 
         return $this->render('trip/add.html.twig', [
             'tripForm' => $tripForm->createView(),

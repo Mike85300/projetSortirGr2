@@ -105,6 +105,7 @@ class Trip
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Location")
      * @ORM\JoinColumn(nullable=true)
+     *
      */
     private $location;
 
