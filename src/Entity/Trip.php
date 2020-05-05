@@ -112,10 +112,6 @@ class Trip
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\State")
      * @ORM\JoinColumn(nullable=false)
-     * @Assert\NotBlank(
-     *     normalizer="trim",
-     *     message="Veuillez renseigner un lieu.",
-     * )
      */
     private $state;
 
