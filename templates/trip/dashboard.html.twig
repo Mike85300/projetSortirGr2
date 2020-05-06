@@ -23,10 +23,13 @@
 
     <div class="dashboard-filter">
         <h3>Filtrer les sorties</h3>
-        {#TODO filtre de recherche#}
+        <div class="filter">
+                {% include 'trip/filter.html.twig' with {form: form} only%}
+        </div>
     </div>
-
+    <div style="padding-top: 15px"></div>
     <div class="card-columns">
+
         {% for trip in trips %}
             <div class="card border-secondary">
                 <div class="card-body">
@@ -94,7 +97,7 @@
                     <div class="d-flex justify-content-center my-2">
                         {# boutons afficher, modifier, publier #}
                         {% if trip.state.wording == 'en création' and trip.organizer.id == app.user.id %}
-                            <a href="#" class="btn btn-outline-info btn-sm mx-2">Modifier</a>
+                            <a href="{{ path('trip_add',{'id':trip.id}) }}" class="btn btn-outline-info btn-sm mx-2">Modifier</a>
                             <a href="#" class="btn btn-outline-primary btn-sm mx-2">Publier</a>
                         {% else %}
                             <a href="#" class="btn btn-outline-info btn-sm mx-2">Afficher</a>
@@ -126,15 +129,12 @@
         {% endfor %}
     </div>
 
-
-
-    <div class="d-flex justify-content-center">
-        <a href="{{ path('trip_add') }}" class="btn btn-outline-secondary btn-lg my-5">Créer une sortie</a>
-    </div>
-
 {% endblock %}
 
  {% block script %}
      {{ parent() }}
      {{ encore_entry_script_tags('dashboard') }}
+
+
  {% endblock %}
+

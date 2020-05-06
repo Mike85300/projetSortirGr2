@@ -1,5 +1,5 @@
 import '../css/dashboard.css';
-let $ = require('jquery');
+var $ = require('jquery');
 
 $(function() {
 
@@ -9,4 +9,6 @@ $(function() {
         }
     });
 })
+
+
 

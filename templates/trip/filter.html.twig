@@ -1,0 +1,38 @@
+{% block stylesheet %}
+    {{ encore_entry_link_tags('filter') }}
+{% endblock %}
+
+
+{{ form_start(form,{class: 'filter'}) }}
+<div class="container">
+    <div class="row">
+        <div class="col-6">{{ form_row(form.campus,{class: 'filter'}) }}</div>
+        <div class="col-6">{{ form_row(form.userOrganisateur,{class: 'filter'}) }}</div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">{{ form_row(form.q,{class: 'filter'}) }}</div>
+        <div class="col-md-6">{{ form_row(form.userInscrit,{class: 'filter'}) }}</div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 datepicker" id="dateMin">{{ form_row(form.dateMin,{class: 'filter'}) }}</div>
+        <div class="col-md-6">{{ form_row(form.userNonInscrit,{class: 'filter'}) }}</div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 datepicker" id="dateMax">{{ form_row(form.dateMax,{class: 'filter'}) }}</div>
+        <div class="col-md-6">{{ form_row(form.finishedTrip,{class: 'filter'}) }}</div>
+    </div>
+    <div class="centrer pl-1">
+        <button type="submit" class="btn btn-outline-primary">Rechercher</button>
+        <a href="{{path ('trip_add')}}" class="btn btn-primary float-right">Créer une sortie</a>
+    </div>
+</div>
+
+
+
+{{ form_end(form) }}
+
+ {% block script %}
+     {{ encore_entry_script_tags('filter') }}
+
+
+ {% endblock %}
