@@ -1,0 +1,15 @@
+h3
+{
+    text-align: center;
+}
+
+#libelle
+{
+    text-align: left;
+}
+
+.jumbotron
+{
+    display: table;
+    margin: 0 auto;
+}
