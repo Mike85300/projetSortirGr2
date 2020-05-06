@@ -27,6 +27,7 @@ Encore
     .addEntry('dashboard', './assets/js/dashboard.js')
     .addEntry('login', './assets/js/login.js')
     .addEntry('trip_add', './assets/js/trip_add.js')
+    .addEntry('trip_detail', './assets/js/trip_detail.js')
     .addEntry('profile', './assets/js/profile.js')
     .addEntry('user_edit', './assets/js/user_edit.js')
     .addEntry('filter', './assets/js/filter.js')

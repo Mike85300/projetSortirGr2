@@ -1,0 +1,156 @@
+{% extends 'layout.html.twig' %}
+
+{% block stylesheet %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('trip_detail') }}
+{% endblock %}
+
+
+{% block title %}
+    Sortir.com - Afficher une sortie
+{% endblock %}
+
+{% block main %}
+    <h2 class="mb-3">
+        Afficher une sortie
+    </h2>
+    <div class="row detail">
+        <div class="col-12 col-lg-6">
+            <div class="row info">
+                <div class="col-4">
+                    <span class="d-lg-none">Nom :</span>
+                    <span class="d-none d-lg-block">Nom de la sortie :</span>
+                </div>
+                <div class="col-8">
+                    {{ trip.name }}
+                </div>
+            </div>
+
+            <div class="row info">
+                <div class="col-4">
+                    <span class="d-lg-none">Date et heure :</span>
+                    <span class="d-none d-lg-block">Date et heure de la sortie :</span>
+                </div>
+                <div class="col-8">
+                    {{ trip.startDate|date("d/m/Y à H:i") }}
+                </div>
+            </div>
+
+            <div class="row info">
+                <div class="col-4">
+                    <span class="d-lg-none">Cloture :</span>
+                    <span class="d-none d-lg-block">Date limite d'inscription :</span>
+                </div>
+                <div class="col-8">
+                    {{ trip.registrationDeadline|date("d/m/Y à H:i") }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-4">
+                    Nombre de places :
+                </div>
+                <div class="col-8">
+                    {{ trip.maxRegistrationNumber ? trip.maxRegistrationNumber : 'illimité' }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-4">
+                    Durée
+                </div>
+                <div class="col-8">
+                    {{ trip.duration }} minutes
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-4">
+                    Description et infos :
+                </div>
+                <div class="col-8">
+                    {{ trip.information }}
+                </div>
+            </div>
+
+        </div>
+        <div class="col-12 col-lg-6">
+
+            <div class="row">
+                <div class="col-4">
+                    Lieu :
+                </div>
+                <div class="col-8">
+                    {{ trip.location.name }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-4">
+                    Rue :
+                </div>
+                <div class="colg-8">
+                    {{ trip.location.street }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-4">
+                    Ville
+                </div>
+                <div class="col-8">
+                    {{ trip.location.city.name }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-4">
+                    Code postal :
+                </div>
+                <div class="col-8">
+                    {{ trip.location.city.zip }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-4">
+                    Latitute :
+                </div>
+                <div class="col-8">
+                    {{ trip.location.latitude }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    Longitude :
+                </div>
+                <div class="col-8">
+                    {{ trip.location.longitude }}
+                </div>
+            </div>
+
+        </div>
+        <div class="col-12">
+            <h3>Liste des participants</h3>
+            <table>
+                <tr>
+                    <td>Pseudo</td>
+                    <td>Nom</td>
+                </tr>
+                {% for participant in trip.participants %}
+                    <tr>
+                        <td>{{ participant.username }}</td>
+                        <td>{{ participant.firstname }} {{ participant.name|upper }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+ {% block script %}
+     {{ parent() }}
+     {{ encore_entry_script_tags('trip_detail') }}
+ {% endblock %}
