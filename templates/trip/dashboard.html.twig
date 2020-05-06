@@ -120,7 +120,7 @@
                         {% endif %}
 
                         {# bouton annuler #}
-                        {% if trip.organizer.id == app.user.id and date() < date(trip.startDate) and trip.state.wording != 'annulé'%}
+                        {% if trip.organizer.id == app.user.id and date() < date(trip.startDate) and trip.state.wording !='annulé' and trip.state.wording !='en création'  %}
                             <a href="{{ path('trip_cancel', {id: trip.id}) }}" class="btn btn-outline-danger btn-sm mx-2">Annuler</a>
                         {% endif %}
                     </div>
