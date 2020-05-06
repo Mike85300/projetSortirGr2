@@ -104,7 +104,7 @@
                         {% endif %}
 
                         {# boutons s'inscrire, se désister #}
-                        {% if (trip.state.wording == 'ouvert' or 'fermé') and date() < date(trip.registrationDeadline) %}
+                        {% if (trip.state.wording == 'ouvert' or 'fermé') and date() < date(trip.registrationDeadline) and trip.state.wording != 'annulé'%}
                             {% set isRegistred = false %}
                             {% for participant in trip.participants %}
                                 {% if participant.id == app.user.id %}
