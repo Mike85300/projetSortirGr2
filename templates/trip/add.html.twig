@@ -68,7 +68,8 @@
             {{ form_row(tripForm.publish) }}
             {% if mod == 'edit' %}
                 <div class="form-group">
-                    <a href="#" class="btn btn-outline-info">Supprimer la sortie</a>
+                    {% set tripId = app.request.get('id') %}
+                    <a href="{{ path('trip_remove', {id: tripId}) }}" id="btn-remove" class="btn btn-outline-info">Supprimer la sortie</a>
                 </div>
             {% endif %}
             <div class="form-group">
