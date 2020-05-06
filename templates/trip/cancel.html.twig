@@ -1,0 +1,66 @@
+{% extends 'layout.html.twig' %}
+
+{% block stylesheet %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('trip_cancel') }}
+{% endblock %}
+
+
+{% block title %}
+    {{ parent() }} - Annuler une sortie
+{% endblock %}
+
+{% block main %}
+        <h3>Annuler une sortie</h3><br>
+
+            <div class="jumbotron col-md-10 offset-md-1 col-sm-11">
+                <div class="row">
+                    <div class="col-lg-3 offset-lg-3 col-md-4 offset-md-2 " id="libelle">
+                        <p>Nom de la sortie:</p>
+                    </div>
+                    <div class="col-lg-6 col-md-3 " id="valeur">
+                        <p>{{ trip.name }}</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-3 offset-lg-3 col-md-4 offset-md-2 col-xs-4" id="libelle">
+                        <p>Date de la sortie:</p>
+                    </div>
+                    <div class="col-lg-6 col-md-3 col-xs-4" id="valeur">
+                        <p>{{ trip.startDate|date("d/m/Y") }}</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-3 offset-lg-3 col-md-4 offset-md-2 col-xs-3" id="libelle">
+                        <p>Site organisateur:</p>
+                    </div>
+                    <div class="col-lg-6 col-md-3 col-xs-3" id="valeur">
+                        <p>{{ trip.location.city.name|upper }}</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-3 offset-lg-3 col-md-4 offset-md-2 col-xs-3" id="libelle">
+                        <p>Lieu:</p>
+                    </div>
+                    <div class="col-lg-6 col-md-3 col-xs-3" id="valeur">
+                        <p>{{ trip.location.name }}</p>
+                    </div>
+                </div>
+                {{ form_start(cancelForm) }}
+
+                {{ form_row(cancelForm.information) }}
+                <p>
+                    <button type="submit">Valider</button>
+                </p>
+                {{ form_end(cancelForm) }}
+            </div>
+
+
+
+{% endblock %}
+
+
+{% block script %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('trip_cancel') }}
+{% endblock %}
