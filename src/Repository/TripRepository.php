@@ -23,75 +23,96 @@ class TripRepository extends ServiceEntityRepository
 
     /**
      * Récupère les sorties en lien avec une recherche
-     * @author : Anthony MARTIN
      * @return Trip[] Un tableau de Trip
+     * @author : Anthony MARTIN
      */
     public function findSearch(SearchData $search, User $user): array
     {
-        $query = $this
-        ->createQueryBuilder('t')
-        ->select('u', 't', 'e')
-        ->join('t.organizer', 'u')
-        ->join('t.state', 'e')
-        ->andWhere('e.wording NOT LIKE :archive')
-        ->setParameter(':archive', 'archivé');
+        $tab = [];
+        $andWhere = '';
+        $lgTab = 0;
 
-        if(!empty($search->q)) {
+        $query = $this
+            ->createQueryBuilder('t')
+            ->select('u', 't', 'e')
+            ->join('t.organizer', 'u')
+            ->join('t.state', 'e')
+            ->andWhere('e.wording NOT LIKE :archive')
+            ->setParameter(':archive', 'archivé');
+
+        if (!empty($search->q)) {
             $query = $query
-                ->having('t.name LIKE :q')
+                ->andWhere('t.name LIKE :q')
                 ->setParameter('q', "%{$search->q}%");
 
         }
 
 
-       if(!empty($search->campus)) {
+        if (!empty($search->campus)) {
             $query = $query
-                ->having('t.campus = :campus')
+                ->andWhere('t.campus = :campus')
                 ->setParameter('campus', $search->campus);
 
-       }
+        }
 
-        if(!empty($search->dateMin && $search->dateMax)) {
+        if (!empty($search->dateMin && $search->dateMax)) {
             $query = $query
-                ->having('t.startDate BETWEEN :startDate AND :endDate')
+                ->andWhere('t.startDate BETWEEN :startDate AND :endDate')
                 ->setParameter('startDate', $search->dateMin)
                 ->setParameter('endDate', $search->dateMax);
         }
+///////////////////////////////////////////
 
-        if(!empty($search->userOrganisateur)) {
+        if (!empty($search->userOrganisateur)) {
+            $tab['userOrga'] = 't.organizer = :user';
             $query = $query
-                ->having('t.organizer = :user')
                 ->setParameter('user', $user->getId());
-
         }
 
-        if(!empty($search->userInscrit)) {
+
+        //////////////////////////////////////////////////////////
+        if (!empty($search->userInscrit)) {
+                $tab['userInscrit'] = 't.id IN (:participant)';
             $query = $query
-                ->having('t.id IN (:participant)')
-                ->andWhere('t.organizer = :user')
-                ->setParameter('user', $user->getId())
                 ->setParameter('participant', $user->getRegistredTrips());
 
         }
 
-        if(!empty($search->userNonInscrit)) {
+        ////////////////////////////////////////////////////////////////
+
+        if (!empty($search->userNonInscrit)) {
+            $tab['userNonInscrit'] = 't.id NOT IN (:participant)';
             $query = $query
-                ->having('t.id NOT IN (:participant)')
                 ->setParameter('participant', $user->getRegistredTrips());
+         }
+        /////////////////////////////////////////////////////////////
 
-
-        }
-
-        if(!empty($search->finishedTrip)) {
+        if (!empty($search->finishedTrip)) {
+            $tab['finishedTrip'] = 'e.wording = :termine';
             $query = $query
-                ->having('e.wording = :termine')
                 ->setParameter('termine', 'terminé');
+            }
 
-        }
+//////////////////////////////////////////////
 
-        if (empty($query)){
+        if (empty($query)) {
             $query = "Aucune sortie";
 
+        }
+
+        if ($tab != null){
+            $lgTab = count($tab);
+            $cptr = 1;
+
+            foreach ($tab as $valeur){
+                $andWhere = $andWhere.$valeur;
+                if ($cptr != $lgTab){
+                    $andWhere = $andWhere.' OR ';
+                    $cptr++;
+                }
+            }
+            $query = $query
+                ->andWhere($andWhere);
         }
 
         return $query->getQuery()->getResult();
