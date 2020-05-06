@@ -53,7 +53,7 @@ class TripController extends AbstractController
 
 
     /**
-     * Gère l'ajout d'une sortie
+     * Gère l'ajout et la modification d'une sortie
      * @Route("/add/{id}", name="add", requirements={"id"="\d+"})
      */
     public function add($id = 0, Request $request, EntityManagerInterface $entityManager)
@@ -70,6 +70,10 @@ class TripController extends AbstractController
         {
             $mod='edit';
             $trip = $this->getDoctrine()->getRepository(Trip::class)->find($id);
+            if (empty($trip)) {
+                $this->addFlash('danger','La sortie demandée n\'est pas enregistrée');
+                return $this->redirectToRoute('trip_dashboard', []);
+            }
             $state = $trip->getState()->getWording();
             $organizerId = $trip->getOrganizer()->getId();
             if ($state != 'en création' || $organizerId != $this->getUser()->getId())
@@ -123,6 +127,22 @@ class TripController extends AbstractController
         return $this->render('trip/add.html.twig', [
             'tripForm' => $tripForm->createView(),
             'mod' => $mod,
+        ]);
+    }
+
+    /**
+     * Gère l'affichage des informations d'une sortie
+     * @Route("/detail/{id}", name="detail", requirements={"id"="\d+"})
+     */
+    public function detail($id)
+    {
+        $trip = $this->getDoctrine()->getRepository(Trip::class)->find($id);
+        if (empty($trip)) {
+            $this->addFlash('danger','La sortie demandée n\'est pas enregistrée');
+            return $this->redirectToRoute('trip_dashboard', []);
+        }
+        return $this->render('trip/detail.html.twig', [
+            'trip' => $trip,
         ]);
     }
 
