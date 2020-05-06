@@ -43,16 +43,25 @@
                         <p>Lieu:</p>
                     </div>
                     <div class="col-lg-6 col-md-3 col-xs-3" id="valeur">
-                        <p>{{ trip.location.name }}</p>
+                        <p>{{ trip.location.name }}, {{ trip.location.street }}</p>
                     </div>
                 </div>
-                {{ form_start(cancelForm) }}
-
-                {{ form_row(cancelForm.information) }}
-                <p>
-                    <button type="submit" id="cancel">Valider</button>
-                </p>
-                {{ form_end(cancelForm) }}
+                <div class="form">
+                    {{ form_start(cancelForm) }}
+                        <div id="valeur">
+                            <p>{{ form_row(cancelForm.information) }}</p>
+                        </div>
+                    <div class="d-flex flex-row flex-wrap justify-content-center">
+                        <p>
+                            <button type="submit" id="cancel" class="btn btn-outline-info">Valider</button>
+                        </p>
+                        {{ form_end(cancelForm) }}
+                        <div class="form-group">
+                            <a href="{{ path('trip_dashboard') }}" class="btn btn-outline-info">Annuler</a>
+                        </div>
+                    </div>
+                    </div>
+                </div>
             </div>
 
 
