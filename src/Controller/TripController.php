@@ -139,10 +139,10 @@ class TripController extends AbstractController
         $wordStateTrip = $stateTrip->getWording();
         /* add user */
         if ($user == $trip->getOrganizer()) {
-            $this->addFlash('error', 'Vous ne pouvez pas vous inscrire, vous êtes l\'organisateur !');
+            $this->addFlash('danger', 'Vous ne pouvez pas vous inscrire, vous êtes l\'organisateur !');
         } elseif ($trip->getRegistrationDeadline() > $datenow) {
             if ($trip->getParticipants()->contains($user)) {
-                $this->addFlash('error', 'Vous êtes déjà inscrit à cette sortie !');
+                $this->addFlash('danger', 'Vous êtes déjà inscrit à cette sortie !');
             } elseif ($wordStateTrip === 'ouvert') {
                 $trip->addParticipant($user);
                 /* change state of trip */
@@ -155,14 +155,14 @@ class TripController extends AbstractController
                 $em->persist($trip);
                 $em->flush();
             } else if ($wordStateTrip === 'en création') {
-                $this->addFlash('error', 'Vous ne pouvez pas vous inscrire, les inscriptions ne sont pas commencées !');
+                $this->addFlash('danger', 'Vous ne pouvez pas vous inscrire, les inscriptions ne sont pas commencées !');
             } elseif ($wordStateTrip === 'annulé') {
-                $this->addFlash('error', 'Vous ne pouvez plus vous inscrire, la sortie est annulée!');
+                $this->addFlash('danger', 'Vous ne pouvez plus vous inscrire, la sortie est annulée!');
             } elseif ($wordStateTrip === 'fermé') {
-                $this->addFlash('error', 'Désolé c\'est complet. Ressayez plus tard !');
+                $this->addFlash('danger', 'Désolé c\'est complet. Ressayez plus tard !');
             }
         } else {
-            $this->addFlash('error', 'Vous ne pouvez plus vous inscrire, les inscriptions sont cloturées !');
+            $this->addFlash('danger', 'Vous ne pouvez plus vous inscrire, les inscriptions sont cloturées !');
         }
 
         return $this->redirectToRoute('trip_dashboard');
@@ -182,7 +182,7 @@ class TripController extends AbstractController
         /* delete user */
         if($trip->getStartDate() > $datenow) {
             if($wordStateTrip === 'annulé'){
-                $this->addFlash('error', 'La sortie a été annulée !' );
+                $this->addFlash('danger', 'La sortie a été annulée !' );
             }elseif ($trip->getParticipants()->contains($user)){
                 $trip->removeParticipant($user);
                 /* change state of trip*/
@@ -195,12 +195,12 @@ class TripController extends AbstractController
                 $em->persist($trip);
                 $em->flush();
             }else {
-                $this->addFlash('error', 'Vous n\'êtes pas inscrit à cette sortie !' );
+                $this->addFlash('danger', 'Vous n\'êtes pas inscrit à cette sortie !' );
             }
         }elseif($wordStateTrip === 'en cours'){
-            $this->addFlash('error', 'Trop tard ! La sortie a déjà débutée.');
+            $this->addFlash('danger', 'Trop tard ! La sortie a déjà débutée.');
         }elseif($wordStateTrip === 'terminé'){
-            $this->addFlash('error', 'La sortie est terminée !');
+            $this->addFlash('danger', 'La sortie est terminée !');
         }
         return $this->redirectToRoute('trip_dashboard');
     }
@@ -233,12 +233,12 @@ class TripController extends AbstractController
                         $em->persist($trip);
                         $em->flush();
                     } else {
-                        $this->addFlash('error', 'Vous n\'êtes pas l\'organisateur de la sortie !');
+                        $this->addFlash('danger', 'Vous n\'êtes pas l\'organisateur de la sortie !');
                     }
                 } elseif ($wordStateTrip === 'en cours') {
-                    $this->addFlash('error', 'Vous ne pouvez pas annulée. La sortie a déjà commencée !');
+                    $this->addFlash('danger', 'Vous ne pouvez pas annulée. La sortie a déjà commencée !');
                 } else {
-                    $this->addFlash('error', 'Vous ne pouvez pas annulée. La sortie est terminée !');
+                    $this->addFlash('danger', 'Vous ne pouvez pas annulée. La sortie est terminée !');
                 }
                 return $this->redirectToRoute('trip_dashboard');
             } else {
@@ -247,7 +247,7 @@ class TripController extends AbstractController
                 ]);
             }
         }else{
-            $this->addFlash('error', 'La sortie a déjà été annulée !');
+            $this->addFlash('danger', 'La sortie a déjà été annulée !');
             return $this->redirectToRoute('trip_dashboard');
         }
     }
