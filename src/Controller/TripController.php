@@ -241,46 +241,49 @@ class TripController extends AbstractController
         $datenow = new \DateTime("now");
         $tripRepo = $this->getDoctrine()->getRepository(Trip::class);
         $trip = $tripRepo->find($id);
-        if(!empty($trip)) {
-            $cancelTripForm = $this->createForm(CancelTripType::class);
-            $stateTrip = $trip->getState();
-            $wordStateTrip = $stateTrip->getWording();
-            $cancelTripForm->handleRequest($request);
-
-            if($wordStateTrip !== 'annulé') {
-                if ($cancelTripForm->isSubmitted() && $cancelTripForm->isValid()) {
-                    if ($trip->getStartDate() > $datenow) {
-                        if (($wordStateTrip === 'ouvert' or $wordStateTrip === 'fermé' or $wordStateTrip === 'en création') and $trip->getOrganizer() == $user) {
-                            $info = $trip->getinformation();
-                            $motif = $cancelTripForm->get("information")->getData();
-                            $trip->setinformation('**ANNULEE** motif:'.$motif.' | '.$info);
-                            $stateRepo = $this->getDoctrine()->getRepository(State::class);
-                            $cancel = $stateRepo->findOneBy(['wording' => 'annulé']);
-                            $trip->setState($cancel);
-                            $this->addFlash('success', 'La sortie à bien été annulée !');
-                            $em->persist($trip);
-                            $em->flush();
+        if($trip->getOrganizer() == $user){
+            if (!empty($trip)) {
+                $cancelTripForm = $this->createForm(CancelTripType::class);
+                $stateTrip = $trip->getState();
+                $wordStateTrip = $stateTrip->getWording();
+                $cancelTripForm->handleRequest($request);
+                if ($wordStateTrip !== 'annulé') {
+                    if ($cancelTripForm->isSubmitted() && $cancelTripForm->isValid()) {
+                        if ($trip->getStartDate() > $datenow) {
+                            if (($wordStateTrip === 'ouvert' or $wordStateTrip === 'fermé' or $wordStateTrip === 'en création') and $trip->getOrganizer() == $user) {
+                                $info = $trip->getinformation();
+                                $motif = $cancelTripForm->get("information")->getData();
+                                $trip->setinformation('**ANNULEE** motif:' . $motif . ' | ' . $info);
+                                $stateRepo = $this->getDoctrine()->getRepository(State::class);
+                                $cancel = $stateRepo->findOneBy(['wording' => 'annulé']);
+                                $trip->setState($cancel);
+                                $this->addFlash('success', 'La sortie à bien été annulée !');
+                                $em->persist($trip);
+                                $em->flush();
+                            } else {
+                                $this->addFlash('danger', 'Vous n\'êtes pas l\'organisateur de la sortie !');
+                            }
+                        } elseif ($wordStateTrip === 'en cours') {
+                            $this->addFlash('danger', 'Vous ne pouvez pas annulée. La sortie a déjà commencée !');
                         } else {
-                            $this->addFlash('danger', 'Vous n\'êtes pas l\'organisateur de la sortie !');
+                            $this->addFlash('danger', 'Vous ne pouvez pas annulée. La sortie est terminée !');
                         }
-                    } elseif ($wordStateTrip === 'en cours') {
-                        $this->addFlash('danger', 'Vous ne pouvez pas annulée. La sortie a déjà commencée !');
+                        return $this->redirectToRoute('trip_dashboard');
                     } else {
-                        $this->addFlash('danger', 'Vous ne pouvez pas annulée. La sortie est terminée !');
+                        return $this->render('trip/cancel.html.twig', [
+                            "trip" => $trip, "cancelForm" => $cancelTripForm->createView()
+                        ]);
                     }
-                    return $this->redirectToRoute('trip_dashboard');
                 } else {
-                    return $this->render('trip/cancel.html.twig', [
-                        "trip" => $trip, "cancelForm" => $cancelTripForm->createView()
-                    ]);
+                    $this->addFlash('danger', 'La sortie a déjà été annulée !');
+                    return $this->redirectToRoute('trip_dashboard');
                 }
-            }else{
-                $this->addFlash('danger', 'La sortie a déjà été annulée !');
-                return $this->redirectToRoute('trip_dashboard');
+            } else {
+                $this->addFlash('danger', 'La sortie n\'existe pas !');
             }
         }else{
-            $this->addFlash('danger', 'La sortie n\'existe pas !');
-            return $this->redirectToRoute('trip_dashboard');
+            $this->addFlash('danger', 'Vous ne pouvez pas annuler, vous n\'êtes pas l\'organisateur !');
         }
+        return $this->redirectToRoute('trip_dashboard');
     }
 }
