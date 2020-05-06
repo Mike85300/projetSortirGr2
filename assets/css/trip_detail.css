@@ -1,8 +1,18 @@
-
-h2 {
-    text-align: center;
-}
-
 .detail {
-    margin: 0 2%;
+    max-width: 1050px;
+    float: none;
+    margin: 0 auto;
 }
+
+.detail-row {
+    margin-bottom: 1rem;
+}
+
+.detail-label {
+    font-weight: 500;
+}
+
+.detail-info {
+
+}
+

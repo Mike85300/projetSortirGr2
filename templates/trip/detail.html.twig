@@ -11,64 +11,64 @@
 {% endblock %}
 
 {% block main %}
-    <h2 class="mb-3">
+    <h2 class="title">
         Afficher une sortie
     </h2>
     <div class="row detail">
         <div class="col-12 col-lg-6">
-            <div class="row info">
-                <div class="col-4">
+            <div class="row detail-row">
+                <div class="col-6 detail-label">
                     <span class="d-lg-none">Nom :</span>
                     <span class="d-none d-lg-block">Nom de la sortie :</span>
                 </div>
-                <div class="col-8">
+                <div class="col-6 detail-info">
                     {{ trip.name }}
                 </div>
             </div>
 
-            <div class="row info">
-                <div class="col-4">
+            <div class="row detail-row">
+                <div class="col-6 detail-label">
                     <span class="d-lg-none">Date et heure :</span>
                     <span class="d-none d-lg-block">Date et heure de la sortie :</span>
                 </div>
-                <div class="col-8">
+                <div class="col-6 detail-info">
                     {{ trip.startDate|date("d/m/Y à H:i") }}
                 </div>
             </div>
 
-            <div class="row info">
-                <div class="col-4">
+            <div class="row detail-row">
+                <div class="col-6 detail-label">
                     <span class="d-lg-none">Cloture :</span>
                     <span class="d-none d-lg-block">Date limite d'inscription :</span>
                 </div>
-                <div class="col-8">
+                <div class="col-6 detail-info">
                     {{ trip.registrationDeadline|date("d/m/Y à H:i") }}
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-4">
+            <div class="row detail-row">
+                <div class="col-6 detail-label">
                     Nombre de places :
                 </div>
-                <div class="col-8">
+                <div class="col-6 detail-info">
                     {{ trip.maxRegistrationNumber ? trip.maxRegistrationNumber : 'illimité' }}
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-4">
+            <div class="row detail-row">
+                <div class="col-6 detail-label">
                     Durée
                 </div>
-                <div class="col-8">
+                <div class="col-6 detail-info">
                     {{ trip.duration }} minutes
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-4">
+            <div class="row detail-row">
+                <div class="col-6 detail-label">
                     Description et infos :
                 </div>
-                <div class="col-8">
+                <div class="col-6 detail-info">
                     {{ trip.information }}
                 </div>
             </div>
@@ -76,74 +76,82 @@
         </div>
         <div class="col-12 col-lg-6">
 
-            <div class="row">
-                <div class="col-4">
+            <div class="row detail-row">
+                <div class="col-6 detail-label">
                     Lieu :
                 </div>
-                <div class="col-8">
+                <div class="col-6 detail-info">
                     {{ trip.location.name }}
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-4">
+            <div class="row detail-row">
+                <div class="col-6 detail-label">
                     Rue :
                 </div>
-                <div class="colg-8">
+                <div class="col-6 detail-info">
                     {{ trip.location.street }}
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-4">
+            <div class="row detail-row">
+                <div class="col-6 detail-label">
                     Ville
                 </div>
-                <div class="col-8">
+                <div class="col-6 detail-info">
                     {{ trip.location.city.name }}
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-4">
+            <div class="row detail-row">
+                <div class="col-6 detail-label">
                     Code postal :
                 </div>
-                <div class="col-8">
+                <div class="col-6 detail-info">
                     {{ trip.location.city.zip }}
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-4">
+            <div class="row detail-row">
+                <div class="col-6 detail-label">
                     Latitute :
                 </div>
-                <div class="col-8">
+                <div class="col-6 detail-info">
                     {{ trip.location.latitude }}
                 </div>
             </div>
-            <div class="row">
-                <div class="col-4">
+            <div class="row detail-row">
+                <div class="col-6 detail-label">
                     Longitude :
                 </div>
-                <div class="col-8">
+                <div class="col-6 detail-info">
                     {{ trip.location.longitude }}
                 </div>
             </div>
 
         </div>
-        <div class="col-12">
-            <h3>Liste des participants</h3>
-            <table>
-                <tr>
-                    <td>Pseudo</td>
-                    <td>Nom</td>
-                </tr>
-                {% for participant in trip.participants %}
+        <div class="col-md-6">
+            <h4>Liste des participants</h4>
+            {% if trip.participants is empty %}
+                <p>Aucun participant</p>
+            {% else %}
+                <table class="table table-striped">
+                    <thead>
                     <tr>
-                        <td>{{ participant.username }}</td>
-                        <td>{{ participant.firstname }} {{ participant.name|upper }}</td>
+                        <th scope="col">Pseudo</th>
+                        <th scope="col">Nom</th>
                     </tr>
-                {% endfor %}
-            </table>
+                    </thead>
+                    <tbody>
+                    {% for participant in trip.participants %}
+                        <tr scope="row">
+                            <td>{{ participant.username }}</td>
+                            <td>{{ participant.firstname }} {{ participant.name|upper }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
         </div>
     </div>
 
