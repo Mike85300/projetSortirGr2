@@ -3,7 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\State;
+use App\Data\SearchData;
 use App\Entity\Trip;
+use App\Entity\User;
+use App\Form\SearchType;
+use App\Repository\TripRepository;
 use App\Form\TripType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,17 +25,29 @@ class TripController extends AbstractController
      * @author : Romain Tanguy
      * @Route("/dashboard", name="dashboard")
      */
-    public function dashboard()
+    public function dashboard(TripRepository $repository, Request $request)
     {
         $tripRepo = $this->getDoctrine()->getRepository(Trip::class);
-
-        //TODO : filtre
-        $trips = $tripRepo->findAll();
-
+        $test = $tripRepo->findAll();
+        $user = $this->getUser(User::class);
+        $data = new SearchData();
+        $form = $this->createForm(SearchType::class, $data);
+        $form->handleRequest($request);
+        $tripsSearch = $repository->findSearch($data, $user);
+        if(!empty($tripsSearch)) {
+            $trips = $tripsSearch;
+        } else {
+            $trips = $this->addFlash('warning', 'Aucune sortie');
+        }
         return $this->render('trip/dashboard.html.twig', [
             'trips' => $trips,
+            'test' => $test,
+            'form' => $form->createView(),
+            'tripsSearch' => $tripsSearch,
         ]);
     }
+
+
 
     /**
      * Gère l'ajout d'une sortie

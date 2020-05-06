@@ -29,6 +29,8 @@ Encore
     .addEntry('trip_add', './assets/js/trip_add.js')
     .addEntry('profile', './assets/js/profile.js')
     .addEntry('user_edit', './assets/js/user_edit.js')
+    .addEntry('filter', './assets/js/filter.js')
+
 
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
@@ -68,7 +70,8 @@ Encore
     //.enableIntegrityHashes(Encore.isProduction())
 
     // uncomment if you're having problems with a jQuery plugin
-    //.autoProvidejQuery()
+    .autoProvidejQuery()
+
 
     // uncomment if you use API Platform Admin (composer req api-admin)
     //.enableReactPreset()
