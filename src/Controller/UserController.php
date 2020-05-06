@@ -83,7 +83,22 @@ class UserController extends AbstractController
         ]);
     }
 
-
+    /**
+     * Gère l'affichage des informations d'un utilisateur
+     * @Route("user/otherprofile/{id}/{bool}/{idtrip}", name="user_otherprofile", requirements={"id"="\d+"})
+     */
+    public function otherprofile($id, $bool, $idtrip)
+    {
+        $otherUser = $this->getDoctrine()->getRepository(User::class)->find($id);
+        if (empty($otherUser)) {
+            $this->addFlash('danger','L\'utilisateur demandée n\'est pas enregistrée');
+            return $this->redirectToRoute('trip_dashboard', []);
+        }
+        $trip = $this->getDoctrine()->getRepository(Trip::class)->find($idtrip);
+        return $this->render('user/otherprofile.html.twig', [
+            'OtherUser' => $otherUser, 'bool' => $bool, 'trip' => $trip
+        ]);
+    }
 
 }
 

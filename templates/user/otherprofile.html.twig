@@ -1,0 +1,30 @@
+{% extends 'layout.html.twig' %}
+
+{% block stylesheet %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('otherprofile') }}
+{% endblock %}
+
+{% block title %}
+    Sortir.com - Profile
+{% endblock %}
+
+{% block main %}
+    <h1 class="titre">{{ OtherUser.Username }}</h1>
+    <div class="profile">
+        <span class="profileCat">Nom :</span> {{ OtherUser.getFirstname }}<br>
+        <span class="profileCat">Prénom :</span> {{ OtherUser.getName }}<br>
+        <span class="profileCat">Téléphone :</span> {{ OtherUser.getPhone }}<br>
+        <span class="profileCat">E-mail :</span> {{ OtherUser.getEmail }}<br>
+        <span class="profileCat">Site de rattachement :</span> {{ OtherUser.campus.getName }}<br>
+        <span class="profileCat">Nom :</span> {{ trip.id }}<br>
+    </div>
+    <br>
+    <p class="centrer">
+        {% if( bool == 1) %}
+        <a href="{{ path('trip_dashboard') }}" class="myButton">Retour</a>
+        {% else %}
+        <a href="{{ path('trip_detail',{'id':trip.id}) }}" class="myButton">Retour</a>
+        {% endif %}
+    </p>
+{% endblock %}

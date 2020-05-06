@@ -131,9 +131,9 @@ class TripController extends AbstractController
     }
 
     /**
-     * Gère l'affichage des informations d'une sortie
-     * @Route("/detail/{id}", name="detail", requirements={"id"="\d+"})
-     */
+ * Gère l'affichage des informations d'une sortie
+ * @Route("/detail/{id}", name="detail", requirements={"id"="\d+"})
+ */
     public function detail($id)
     {
         $trip = $this->getDoctrine()->getRepository(Trip::class)->find($id);

@@ -146,7 +146,7 @@
                     {% for participant in trip.participants %}
                         <tr scope="row">
                             <td>{{ participant.username }}</td>
-                            <td>{{ participant.firstname }} {{ participant.name|upper }}</td>
+                            <td><a class="nav-link" href="{{ path('user_otherprofile',{'id': participant.id, 'bool':2, 'idtrip':trip.id}) }}">{{ participant.firstname }} {{ participant.name|upper }}</a></td>
                         </tr>
                     {% endfor %}
                     </tbody>

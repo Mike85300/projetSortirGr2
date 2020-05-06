@@ -32,7 +32,7 @@ Encore
     .addEntry('user_edit', './assets/js/user_edit.js')
     .addEntry('filter', './assets/js/filter.js')
     .addEntry('trip_cancel', './assets/js/trip_cancel.js')
-
+    .addEntry('otherprofile', './assets/js/otherprofile.js')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()
