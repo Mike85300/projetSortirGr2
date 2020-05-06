@@ -283,4 +283,28 @@ class TripController extends AbstractController
             return $this->redirectToRoute('trip_dashboard');
         }
     }
+
+    /**
+     * Gère la suppression d'une sortie.
+     * @Route("/remove/{id}", name="remove", requirements={"id"="\d+"})
+     */
+    public function remove($id, EntityManagerInterface $entityManager)
+    {
+        $trip = $this->getDoctrine()->getRepository(Trip::class)->find($id);
+        if (empty($trip)) {
+            $this->addFlash('danger','La sortie demandée n\'est pas enregistrée');
+            return $this->redirectToRoute('trip_dashboard', []);
+        }
+        $state = $trip->getState()->getWording();
+        $organizerId = $trip->getOrganizer()->getId();
+        if ($state != 'en création' || $organizerId != $this->getUser()->getId())
+        {
+            $this->addFlash('danger','La sortie ne peut pas être supprimée');
+            return $this->redirectToRoute('trip_dashboard', []);
+        }
+        $entityManager->remove($trip);
+        $entityManager->flush();
+        $this->addFlash('succes','La sortie est supprimée');
+        return $this->redirectToRoute('trip_dashboard', []);
+    }
 }

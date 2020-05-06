@@ -4,10 +4,22 @@ let $ = require('jquery');
 
 $(function() {
 
+    /**
+     * Charge les informations du lieu et de la ville au chargement de la page si l'utilisateur modifie une sortie.
+     */
     if ($('#trip_location').val())
     {
         afficherDetailLieu($('#trip_location').val());
     }
+
+    /**
+     * Gère l'évènement 'click' sur le lien supprimer
+     */
+    $("#btn-remove").click(function(event) {
+        if (!window.confirm("Etes-vous sur de vouloir supprimer la sortie ?")) {
+            event.preventDefault();
+        }
+    });
 
     /**
      * Gére l'évènement 'input' sur le champ Ville - Requête AJAX
