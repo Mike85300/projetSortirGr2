@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Campus;
+use App\Entity\Trip;
 use App\Entity\User;
 use App\Form\UserType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -81,6 +82,8 @@ class UserController extends AbstractController
             "user" => $user, "userForm" => $userForm->createView()
         ]);
     }
+
+
 
 }
 

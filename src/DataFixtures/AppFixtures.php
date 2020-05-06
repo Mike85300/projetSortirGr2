@@ -36,10 +36,6 @@ class AppFixtures extends Fixture
         $open->setWording('ouvert');
         array_push($states, $open);
 
-        $full = new State();
-        $full->setWording('complet');
-        array_push($states, $full);
-
         $close = new State();
         $close->setWording('fermé');
         array_push($states, $close);
@@ -244,6 +240,24 @@ class AppFixtures extends Fixture
         $romaintanguy->setPassword($password);
         array_push($users, $romaintanguy);
 
+        $emmanuelmacron = new User();
+        $emmanuelmacron->setUsername('emacron')->setName('Macron')->setFirstname('Emmanuel')->setEmail('emmanuel.macron2019@campus-eni.fr')->setPhone('0644444444')->setActive(false)->setCampus($campusNantes)->setRoles(['ROLE_USER']);
+        $password = $this->encoder->encodePassword($emmanuelmacron, 'azerty123');
+        $emmanuelmacron->setPassword($password);
+        array_push($users, $emmanuelmacron);
+
+        $zinedinezidane = new User();
+        $zinedinezidane->setUsername('zz')->setName('Zidane')->setFirstname('Zinedine')->setEmail('zinedine.zidane2019@campus-eni.fr')->setPhone('0655555555')->setActive(false)->setCampus($campusRennes)->setRoles(['ROLE_USER']);
+        $password = $this->encoder->encodePassword($zinedinezidane, 'azerty123');
+        $zinedinezidane->setPassword($password);
+        array_push($users, $zinedinezidane);
+
+        $joeystarr = new User();
+        $joeystarr->setUsername('jstarr')->setName('Starr')->setFirstname('Joey')->setEmail('joey.starr2019@campus-eni.fr')->setPhone('0666666666')->setActive(false)->setCampus($campusLaval)->setRoles(['ROLE_USER']);
+        $password = $this->encoder->encodePassword($joeystarr, 'azerty123');
+        $joeystarr->setPassword($password);
+        array_push($users, $joeystarr);
+
         foreach ($users as $user)
         {
             $manager->persist($user);
@@ -268,7 +282,7 @@ class AppFixtures extends Fixture
             ->setMaxRegistrationNumber(8)
             ->setinformation('Thème de la soirée : La morale est-elle la meilleure des politiques ?')
             ->setState($archived)
-            ->addParticipant($bobMarley)->addParticipant($anthonyMartin)->addParticipant($mickaelMandin)->addParticipant($romaintanguy);
+            ->addParticipant($anthonyMartin)->addParticipant($mickaelMandin)->addParticipant($romaintanguy);
         array_push($trips, $atelierPhilo1);
 
         $atelierPhilo2 = new Trip();
@@ -283,7 +297,7 @@ class AppFixtures extends Fixture
             ->setMaxRegistrationNumber(8)
             ->setinformation('**ANNULE** Thème de la soirée : La pluralité des cultures fait-elle obstacle à l’unité du genre humain ?')
             ->setState($canceled)
-            ->addParticipant($bobMarley)->addParticipant($anthonyMartin)->addParticipant($mickaelMandin)->addParticipant($romaintanguy);
+            ->addParticipant($anthonyMartin)->addParticipant($mickaelMandin)->addParticipant($romaintanguy);
         array_push($trips, $atelierPhilo2);
 
         $atelierPhilo3 = new Trip();
@@ -311,8 +325,7 @@ class AppFixtures extends Fixture
             ->setRegistrationDeadline(date_create('2020-03-02 17:00'))
             ->setMaxRegistrationNumber(12)
             ->setinformation('Thème de la soirée : Pourquoi la loi de Murphy ?')
-            ->setState($inCreation)
-            ->addParticipant($anthonyMartin)->addParticipant($mickaelMandin)->addParticipant($romaintanguy);
+            ->setState($inCreation);
 
         array_push($trips, $atelierPhilo4);
 
@@ -328,7 +341,7 @@ class AppFixtures extends Fixture
             ->setMaxRegistrationNumber(null)
             ->setinformation('Film à prévoir')
             ->setState($open)
-            ->addParticipant($bobMarley)->addParticipant($anthonyMartin)->addParticipant($mickaelMandin)->addParticipant($romaintanguy);
+            ->addParticipant($anthonyMartin)->addParticipant($mickaelMandin)->addParticipant($romaintanguy)->addParticipant($emmanuelmacron);
         array_push($trips, $cinema1);
 
         $echec1 = new Trip();
@@ -342,8 +355,8 @@ class AppFixtures extends Fixture
             ->setRegistrationDeadline(date_create('2020-05-15 12:00'))
             ->setMaxRegistrationNumber(2)
             ->setinformation('')
-            ->setState($full)
-            ->addParticipant($bobMarley)->addParticipant($anthonyMartin);
+            ->setState($close)
+            ->addParticipant($romaintanguy)->addParticipant($anthonyMartin);
         array_push($trips, $echec1);
 
         $piscine1 = new Trip();
@@ -358,7 +371,7 @@ class AppFixtures extends Fixture
             ->setMaxRegistrationNumber(12)
             ->setinformation('')
             ->setState($open)
-            ->addParticipant($anthonyMartin)->addParticipant($mickaelMandin)->addParticipant($romaintanguy);
+            ->addParticipant($mickaelMandin)->addParticipant($romaintanguy)->addParticipant($zinedinezidane)->addParticipant($joeystarr);
         array_push($trips, $piscine1);
 
         foreach ($trips as $trip)
@@ -393,7 +406,7 @@ class AppFixtures extends Fixture
             ->setMaxRegistrationNumber(null)
             ->setinformation('Séance ouverte à tous pour découvrir le yoga en plein air en centre ville.')
             ->setState($close)
-            ->addParticipant($anthonyMartin)->addParticipant($mickaelMandin)->addParticipant($romaintanguy);
+            ->addParticipant($anthonyMartin)->addParticipant($romaintanguy);
         array_push($trips, $yoga1);
 
         $coronapero1 = new Trip();
@@ -408,7 +421,7 @@ class AppFixtures extends Fixture
             ->setMaxRegistrationNumber(null)
             ->setinformation('Apéro à distance en organisé avec V&B La Roche Sud')
             ->setState($over)
-            ->addParticipant($bobMarley)->addParticipant($anthonyMartin)->addParticipant($mickaelMandin)->addParticipant($romaintanguy);
+            ->addParticipant($anthonyMartin)->addParticipant($mickaelMandin)->addParticipant($romaintanguy);
         array_push($trips, $coronapero1);
 
         $coronapero2 = new Trip();
@@ -423,7 +436,7 @@ class AppFixtures extends Fixture
             ->setMaxRegistrationNumber(null)
             ->setinformation('Apéro à distance en organisé avec V&B La Roche Sud')
             ->setState($open)
-            ->addParticipant($bobMarley)->addParticipant($anthonyMartin)->addParticipant($mickaelMandin)->addParticipant($romaintanguy);
+            ->addParticipant($anthonyMartin)->addParticipant($mickaelMandin)->addParticipant($romaintanguy)->addParticipant($joeystarr);
         array_push($trips, $coronapero2);
 
         $coronapero3 = new Trip();
@@ -438,7 +451,7 @@ class AppFixtures extends Fixture
             ->setMaxRegistrationNumber(null)
             ->setinformation('Apéro à distance avec le musée du Donjon de Niort !')
             ->setState($open)
-            ->addParticipant($bobMarley)->addParticipant($anthonyMartin)->addParticipant($mickaelMandin)->addParticipant($romaintanguy);
+            ->addParticipant($anthonyMartin)->addParticipant($mickaelMandin)->addParticipant($romaintanguy);
         array_push($trips, $coronapero3);
 
         foreach ($trips as $trip)

@@ -77,7 +77,7 @@ class User implements UserInterface
     private $active;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Trip", mappedBy="participants")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Trip", mappedBy="participants", cascade={"remove"})
      */
     private $registredTrips;
 
