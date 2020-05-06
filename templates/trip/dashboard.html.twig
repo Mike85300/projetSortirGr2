@@ -67,7 +67,7 @@
                             </div>
                         </li>
 
-                        {% if trip.state.wording == 'ouvert' or trip.state.wording == 'complet' %}
+                        {% if trip.state.wording == 'ouvert' %}
                             <li class="list-group-item">
                                 <div class="row">
                                     <div class="col-6">
@@ -101,7 +101,7 @@
                         {% endif %}
 
                         {# boutons s'inscrire, se désister #}
-                        {% if trip.state.wording == 'ouvert' and date() < date(trip.registrationDeadline) %}
+                        {% if (trip.state.wording == 'ouvert' or 'fermé') and date() < date(trip.registrationDeadline) %}
                             {% set isRegistred = false %}
                             {% for participant in trip.participants %}
                                 {% if participant.id == app.user.id %}
@@ -109,15 +109,16 @@
                                 {% endif %}
                             {% endfor %}
                             {% if isRegistred %}
-                                <a href="#" class="btn btn-outline-warning btn-sm mx-2">Se désister</a>
-                            {% else %}
-                                <a href="#" class="btn btn-outline-success btn-sm mx-2">S'inscrire</a>
+                                <a href="{{ path('trip_unsubscribe', {id: trip.id}) }}" class="btn btn-outline-warning btn-sm mx-2" id="unsubscribe">Se désister</a>
+                            {% endif %}
+                            {% if isRegistred == false and trip.state.wording == 'ouvert' and trip.organizer.id != app.user.id %}
+                                <a href="{{ path('trip_register', {id: trip.id}) }}" class="btn btn-outline-success btn-sm mx-2">S'inscrire</a>
                             {% endif %}
                         {% endif %}
 
                         {# bouton annuler #}
-                        {% if trip.organizer.id == app.user.id and date() < date(trip.startDate) %}
-                            <a href="#" class="btn btn-outline-danger btn-sm mx-2">Annuler</a>
+                        {% if trip.organizer.id == app.user.id and date() < date(trip.startDate) and trip.state.wording != 'annulé'%}
+                            <a href="{{ path('trip_cancel', {id: trip.id}) }}" class="btn btn-outline-danger btn-sm mx-2">Annuler</a>
                         {% endif %}
                     </div>
                 </div>
