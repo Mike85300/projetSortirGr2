@@ -99,23 +99,19 @@ class Trip
 
     /**
      * @ORM\Column(type="text", nullable=true)
-     * @Assert\Positive
      */
     private $information;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Location")
      * @ORM\JoinColumn(nullable=true)
+     *
      */
     private $location;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\State")
      * @ORM\JoinColumn(nullable=false)
-     * @Assert\NotBlank(
-     *     normalizer="trim",
-     *     message="Veuillez renseigner un lieu.",
-     * )
      */
     private $state;
 

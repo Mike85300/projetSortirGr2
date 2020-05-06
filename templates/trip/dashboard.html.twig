@@ -97,7 +97,7 @@
                     <div class="d-flex justify-content-center my-2">
                         {# boutons afficher, modifier, publier #}
                         {% if trip.state.wording == 'en création' and trip.organizer.id == app.user.id %}
-                            <a href="#" class="btn btn-outline-info btn-sm mx-2">Modifier</a>
+                            <a href="{{ path('trip_add',{'id':trip.id}) }}" class="btn btn-outline-info btn-sm mx-2">Modifier</a>
                             <a href="#" class="btn btn-outline-primary btn-sm mx-2">Publier</a>
                         {% else %}
                             <a href="#" class="btn btn-outline-info btn-sm mx-2">Afficher</a>
