@@ -9,3 +9,6 @@ body {
     margin-bottom: 2rem;
 }
 
+.navbar-brand {
+    font-size: 2rem;
+}

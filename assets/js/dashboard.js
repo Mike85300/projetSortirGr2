@@ -8,7 +8,17 @@ $(function() {
             event.preventDefault();
         }
     });
-})
+
+    $(".trip-card").hover(
+        function ()
+        {
+            $(this).css('box-shadow', '-5px 10px #888888');
+        },
+        function ()
+        {
+            $(this).css('box-shadow', '0px 0px #888888');
+        })
+});
 
 
 

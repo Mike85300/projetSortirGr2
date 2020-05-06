@@ -22,7 +22,7 @@
     </div>
 
     <div class="dashboard-filter">
-        <h3>Filtrer les sorties</h3>
+        <h3 class="ml-1">Filtrer les sorties</h3>
         <div class="filter">
                 {% include 'trip/filter.html.twig' with {form: form} only%}
         </div>
@@ -31,7 +31,7 @@
     <div class="card-columns">
 
         {% for trip in trips %}
-            <div class="card border-secondary">
+            <div class="card border-secondary trip-card" id="trip-card">
                 <div class="card-body">
                     <h5 class="card-title">{{ trip.name|upper }}</h5>
                     <p class="card-city">{{ trip.location.city.name }}</p>

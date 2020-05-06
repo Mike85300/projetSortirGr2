@@ -8,3 +8,23 @@
     margin: 0.5rem 1rem;
     min-width: 150px;
 }
+
+.col-form-label {
+    font-weight: 500;
+}
+
+.form-city .form-group {
+    margin-bottom: 0;
+}
+
+.form-city {
+    margin-bottom: 1rem;
+}
+
+.form-location .form-group {
+    margin-bottom: 0;
+}
+
+.form-location {
+    margin-bottom: 1rem;
+}

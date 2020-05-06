@@ -16,3 +16,16 @@
 
 }
 
+.participants {
+    margin-top: 2rem;
+}
+
+.participants a {
+    text-decoration: none;
+    color: black;
+}
+
+.participants table {
+    max-width: 450px;
+}
+

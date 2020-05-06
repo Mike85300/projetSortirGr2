@@ -34,12 +34,16 @@
                 {{ form_row(tripForm.information) }}
             </div>
             <div class="col-12 col-lg-6">
-                {{ form_row(tripForm.city) }}
-                <datalist id="cities"></datalist>
-                <a href="#">Add</a>
+                <div class="form-city">
+                    {{ form_row(tripForm.city) }}
+                    <datalist id="cities"></datalist>
+                    <a href="#">Ajouter une ville</a>
+                </div>
+                <div class="form-location">
+                    {{ form_row(tripForm.location) }}
+                    <a href="#">Ajouter un lieu</a>
+                </div>
 
-                {{ form_row(tripForm.location) }}
-                <a href="#">Add</a>
 
                 <div id="location_detail">
                     <div class="form-group row">

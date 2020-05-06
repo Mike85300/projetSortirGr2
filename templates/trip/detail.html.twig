@@ -130,29 +130,29 @@
             </div>
 
         </div>
-        <div class="col-md-6">
-            <h4>Liste des participants</h4>
-            {% if trip.participants is empty %}
-                <p>Aucun participant</p>
-            {% else %}
-                <table class="table table-striped">
-                    <thead>
-                    <tr>
-                        <th scope="col">Pseudo</th>
-                        <th scope="col">Nom</th>
+    </div>
+    <div class="col-md-6 participants">
+        <h4>Liste des participants inscrits : </h4>
+        {% if trip.participants is empty %}
+            <p>Aucun participant</p>
+        {% else %}
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">Pseudo</th>
+                    <th scope="col">Nom</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for participant in trip.participants %}
+                    <tr scope="row">
+                        <td>{{ participant.username }}</td>
+                        <td><a  href="{{ path('user_otherprofile',{'id': participant.id, 'bool':2, 'idtrip':trip.id}) }}">{{ participant.firstname }} {{ participant.name|upper }}</a></td>
                     </tr>
-                    </thead>
-                    <tbody>
-                    {% for participant in trip.participants %}
-                        <tr scope="row">
-                            <td>{{ participant.username }}</td>
-                            <td><a  href="{{ path('user_otherprofile',{'id': participant.id, 'bool':2, 'idtrip':trip.id}) }}">{{ participant.firstname }} {{ participant.name|upper }}</a></td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-            {% endif %}
-        </div>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
     </div>
 
 
