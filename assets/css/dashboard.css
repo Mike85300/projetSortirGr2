@@ -8,10 +8,17 @@
 }
 
 .card-city {
+     margin-bottom: 0.5rem;
+     font-size: 0.9rem;
+     text-align: center;
+ }
+
+.card-inscrit {
     margin-bottom: 0.5rem;
     font-size: 0.9rem;
     text-align: center;
 }
+
 
 .list-group-item {
     padding: 0.5rem 1rem;
