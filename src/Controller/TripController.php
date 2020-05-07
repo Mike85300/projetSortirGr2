@@ -112,11 +112,11 @@ class TripController extends AbstractController
                     $entityManager->flush();
                     if ($state == 'add')
                     {
-                        $this->addFlash('succes','La sortie est enregistrée');
+                        $this->addFlash('success','La sortie est enregistrée');
                     }
                     elseif ($state = 'edit')
                     {
-                        $this->addFlash('succes','La sortie est modifiée');
+                        $this->addFlash('success','La sortie est modifiée');
                     }
 
                     return $this->redirectToRoute('trip_dashboard', []);
@@ -307,7 +307,32 @@ class TripController extends AbstractController
         }
         $entityManager->remove($trip);
         $entityManager->flush();
-        $this->addFlash('succes','La sortie est supprimée');
+        $this->addFlash('success','La sortie est supprimée');
+        return $this->redirectToRoute('trip_dashboard', []);
+    }
+
+    /**
+     * @Route("publish/{id}", name="publish", requirements={"id"="\d+"})
+     */
+    public function publish($id, EntityManagerInterface $entityManager)
+    {
+        $trip = $this->getDoctrine()->getRepository(Trip::class)->find($id);
+        if (empty($trip)) {
+            $this->addFlash('danger','La sortie demandée n\'est pas enregistrée');
+            return $this->redirectToRoute('trip_dashboard', []);
+        }
+        $state = $trip->getState()->getWording();
+        $organizerId = $trip->getOrganizer()->getId();
+        if ($state != 'en création' || $organizerId != $this->getUser()->getId())
+        {
+            $this->addFlash('danger','La sortie ne peut pas être publiée');
+            return $this->redirectToRoute('trip_dashboard', []);
+        }
+        $state = $this->getDoctrine()->getRepository(State::class)->findOneBy(['wording' => 'ouvert']);
+        $trip->setState($state);
+        $entityManager->persist($trip);
+        $entityManager->flush();
+        $this->addFlash('success','La sortie est publiée');
         return $this->redirectToRoute('trip_dashboard', []);
     }
 }
