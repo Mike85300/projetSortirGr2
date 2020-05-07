@@ -29,7 +29,6 @@
     </div>
     <div style="padding-top: 15px"></div>
     <div class="card-columns">
-
         {% for trip in trips %}
             <div class="card border-secondary trip-card" id="trip-card">
                 <div class="card-body">
@@ -120,7 +119,6 @@
 
                         {# boutons s'inscrire, se désister #}
                         {% if (trip.state.wording == 'ouvert' or 'fermé') and date() < date(trip.registrationDeadline) and trip.state.wording != 'annulé'%}
-                            {% set isRegistred = false %}
                             {% if isRegistred %}
                                 <a href="{{ path('trip_unsubscribe', {id: trip.id}) }}" class="btn btn-outline-warning btn-sm mx-2" id="unsubscribe">Se désister</a>
                             {% endif %}
