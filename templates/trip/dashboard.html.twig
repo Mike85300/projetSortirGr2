@@ -34,7 +34,7 @@
             <div class="card border-secondary trip-card" id="trip-card">
                 <div class="card-body">
                     <h5 class="card-title">{{ trip.name|upper }}</h5>
-                    <p class="card-city">{{ trip.location.city.name }}</p>
+                    <p class="card-city">{{ trip.campus.name }}</p>
                     {% set isRegistred = false %}
                     {% for participant in trip.participants %}
                         {% if participant.id == app.user.id %}
