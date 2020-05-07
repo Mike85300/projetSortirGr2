@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-transparent">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-brand" href="{{ path('trip_dashboard') }}">sortir.com</a>
+            <a class="navbar-brand" href="{{ path('trip_dashboard') }}"><img src="{{ asset("images/logoSite.jpg") }}" alt="Logo du site"/></a>
         </div>
         {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
         <div>

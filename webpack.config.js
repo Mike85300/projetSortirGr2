@@ -33,6 +33,8 @@ Encore
     .addEntry('filter', './assets/js/filter.js')
     .addEntry('trip_cancel', './assets/js/trip_cancel.js')
     .addEntry('otherprofile', './assets/js/otherprofile.js')
+    .addEntry('layout', './assets/js/layout.js')
+
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()
