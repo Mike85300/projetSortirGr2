@@ -6,30 +6,26 @@
 {{ form_start(form,{class: 'filter'}) }}
 <div class="container">
     <div class="row">
-        <div class="col-4">{{ form_row(form.campus,{class: 'filter'}) }}</div>
-        <div class="col-6">{{ form_row(form.userOrganisateur,{class: 'filter'}) }}</div>
-        <div class="col-2">
-            <button type="submit" class="btn btn-primary btn-lg float-right">Rechercher</button>
+        <div class="col-12 col-lg-4">
+            {{ form_row(form.campus,{class: 'filter'}) }}
+            {{ form_row(form.q,{class: 'filter'}) }}
+            {{ form_row(form.dateMin,{class: 'filter'}) }}
+            {{ form_row(form.dateMax,{class: 'filter'}) }}
         </div>
+        <div class="col-12 col-lg-4">
+            {{ form_row(form.userOrganisateur,{class: 'filter'}) }}
+            {{ form_row(form.userInscrit,{class: 'filter'}) }}
+            {{ form_row(form.userNonInscrit,{class: 'filter'}) }}
+            {{ form_row(form.finishedTrip,{class: 'filter'}) }}
+        </div>
+        <div class="col-12 col-lg-4">
+            <div class="d-flex flex-wrap flex-column">
+                <button type="submit" class="btn btn-primary btn-lg mb-3 mt-lg-5">Rechercher</button>
+                <a href="{{path ('trip_add')}}" class="btn btn-info mt-lg-3">Créer une sortie</a>
+            </div>
 
-
-    </div>
-    <div class="row">
-        <div class="col-4">{{ form_row(form.q,{class: 'filter'}) }}</div>
-        <div class="col-6">{{ form_row(form.userInscrit,{class: 'filter'}) }}</div>
-    </div>
-    <div class="row">
-        <div class="col-4 datepicker" id="dateMin">{{ form_row(form.dateMin,{class: 'filter'}) }}</div>
-        <div class="col-6">{{ form_row(form.userNonInscrit,{class: 'filter'}) }}</div>
-    </div>
-    <div class="row">
-        <div class="col-4 datepicker" id="dateMax">{{ form_row(form.dateMax,{class: 'filter'}) }}</div>
-        <div class="col-6">{{ form_row(form.finishedTrip,{class: 'filter'}) }}</div>
-        <div class="col-2">
-            <a href="{{path ('trip_add')}}" class="btn btn-info float-right">Créer une sortie</a>
         </div>
     </div>
-
 </div>
 
 
