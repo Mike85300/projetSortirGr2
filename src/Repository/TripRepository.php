@@ -72,10 +72,10 @@ class TripRepository extends ServiceEntityRepository
 
         //////////////////////////////////////////////////////////
         if (!empty($search->userInscrit)) {
-                $tab['userInscrit'] = 't.id IN (:participant)';
+                $tab['userInscrit'] = 't.id IN (:participant) OR t.organizer = :user';
             $query = $query
-                ->setParameter('participant', $user->getRegistredTrips());
-
+                ->setParameter('participant', $user->getRegistredTrips())
+                ->setParameter('user', $user->getId());
         }
 
         ////////////////////////////////////////////////////////////////

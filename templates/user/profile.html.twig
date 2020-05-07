@@ -13,8 +13,8 @@
     <h1 class="titre">Mon profil</h1>
     <div class="profile">
         <span class="profileCat">Pseudo :</span> {{ app.user.getUsername }}<br>
-        <span class="profileCat">Nom :</span> {{ app.user.getFirstname }}<br>
-        <span class="profileCat">Prénom :</span> {{ app.user.getName }}<br>
+        <span class="profileCat">Nom :</span> {{ app.user.getName }}<br>
+        <span class="profileCat">Prénom :</span> {{ app.user.getFirstName }}<br>
         <span class="profileCat">Téléphone :</span> {{ app.user.getPhone }}<br>
         <span class="profileCat">E-mail :</span> {{ app.user.getEmail }}<br>
         <span class="profileCat">Site de rattachement :</span> {{ app.user.campus.getName }}<br>
