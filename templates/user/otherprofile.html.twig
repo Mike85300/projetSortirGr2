@@ -12,8 +12,8 @@
 {% block main %}
     <h1 class="titre">{{ OtherUser.Username }}</h1>
     <div class="profile">
-        <span class="profileCat">Nom :</span> {{ OtherUser.getFirstname }}<br>
-        <span class="profileCat">Prénom :</span> {{ OtherUser.getName }}<br>
+        <span class="profileCat">Nom :</span> {{ OtherUser.getName }}<br>
+        <span class="profileCat">Prénom :</span> {{ OtherUser.getFirstname }}<br>
         <span class="profileCat">Téléphone :</span> {{ OtherUser.getPhone }}<br>
         <span class="profileCat">E-mail :</span> {{ OtherUser.getEmail }}<br>
         <span class="profileCat">Site de rattachement :</span> {{ OtherUser.campus.getName }}<br>
