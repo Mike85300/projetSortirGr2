@@ -1,0 +1,140 @@
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `archive_trips`()
+    NO SQL
+BEGIN
+	DECLARE fin BOOLEAN DEFAULT FALSE;
+	DECLARE archived_id, trip_id INT;
+    
+    DECLARE c_archive_trips CURSOR 
+        FOR SELECT trips.id
+            FROM trips
+            RIGHT OUTER JOIN states ON states.id = trips.state_id
+            WHERE states.wording = 'terminé' AND DATEDIFF(NOW(), DATE_ADD(trips.start_date, INTERVAL trips.duration MINUTE))>30;
+    
+  	DECLARE CONTINUE HANDLER FOR NOT FOUND SET fin = TRUE;
+    
+    SELECT states.id INTO archived_id FROM states WHERE states.wording = 'archivé';
+    
+    OPEN c_archive_trips;
+    
+    loop_curseur: LOOP
+        FETCH c_archive_trips INTO trip_id;
+        IF fin THEN
+        	LEAVE loop_curseur;
+      	END IF;
+        UPDATE trips SET state_id = archived_id WHERE trips.id = trip_id;
+	END LOOP;
+    
+    CLOSE c_archive_trips;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `end_trips`()
+    NO SQL
+BEGIN
+	DECLARE fin BOOLEAN DEFAULT FALSE;
+	DECLARE over_id, trip_id INT;
+    
+    DECLARE c_end_trips CURSOR
+        FOR SELECT trips.id
+            FROM trips
+            RIGHT OUTER JOIN states ON states.id = trips.state_id
+            WHERE states.wording = 'en cours' AND DATE_ADD(trips.start_date, INTERVAL trips.duration MINUTE) < NOW();
+            
+  	DECLARE CONTINUE HANDLER FOR NOT FOUND SET fin = TRUE;
+
+    SELECT states.id INTO over_id FROM states WHERE states.wording = 'terminé';
+    
+    
+    OPEN c_end_trips;
+    
+    loop_curseur: LOOP
+        FETCH c_end_trips INTO trip_id;
+        IF fin THEN
+        	LEAVE loop_curseur;
+      	END IF;
+        UPDATE trips SET state_id = over_id WHERE trips.id = trip_id;
+	END LOOP;
+    
+    CLOSE c_end_trips;
+
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `close_trips`()
+    NO SQL
+BEGIN
+	DECLARE fin BOOLEAN DEFAULT FALSE;
+	DECLARE closed_id, trip_id INT;
+	
+    DECLARE c_close_trips CURSOR 
+        FOR SELECT trips.id
+            FROM trips
+            RIGHT OUTER JOIN states ON states.id = trips.state_id
+            WHERE states.wording = 'ouvert' AND trips.registration_deadline < NOW();
+     
+  	DECLARE CONTINUE HANDLER FOR NOT FOUND SET fin = TRUE;
+
+	SELECT states.id INTO closed_id FROM states WHERE states.wording = 'fermé';
+    
+    OPEN c_close_trips;
+    
+    loop_curseur: LOOP
+        FETCH c_close_trips INTO trip_id;
+        IF fin THEN
+        	LEAVE loop_curseur;
+      	END IF;
+        UPDATE trips SET state_id = closed_id WHERE trips.id = trip_id;
+	END LOOP;
+    
+    CLOSE c_close_trips;
+
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `start_trips`()
+    NO SQL
+BEGIN
+	DECLARE fin BOOLEAN DEFAULT FALSE;
+	DECLARE in_progress_id, trip_id INT;
+	
+    DECLARE c_start_trips CURSOR 
+        FOR SELECT trips.id
+            FROM trips
+            RIGHT OUTER JOIN states ON states.id = trips.state_id
+            WHERE ( states.wording = 'ouvert' OR states.wording = 'fermé' ) AND trips.start_date < NOW();
+     
+  	DECLARE CONTINUE HANDLER FOR NOT FOUND SET fin = TRUE;
+
+	SELECT states.id INTO in_progress_id FROM states WHERE states.wording = 'en cours';
+    
+    OPEN c_start_trips;
+    
+    loop_curseur: LOOP
+        FETCH c_start_trips INTO trip_id;
+        IF fin THEN
+        	LEAVE loop_curseur;
+      	END IF;
+        UPDATE trips SET state_id = in_progress_id WHERE trips.id = trip_id;
+	END LOOP;
+    
+    CLOSE c_start_trips;
+
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `update_trips_state`()
+    NO SQL
+BEGIN
+CALL close_trips();
+CALL start_trips();
+CALL end_trips();
+CALL archive_trips();
+END$$
+DELIMITER ;
+
+CREATE DEFINER=`root`@`localhost` EVENT `update_trip_states_event` ON SCHEDULE EVERY 1 MINUTE STARTS '2020-05-06 00:00:00' ON COMPLETION NOT PRESERVE ENABLE DO CALL update_trips_state()
